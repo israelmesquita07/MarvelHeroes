@@ -20,7 +20,6 @@
 		586F55282495199200CFC0B4 /* HeroesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F55222495199200CFC0B4 /* HeroesInteractor.swift */; };
 		586F5531249519EA00CFC0B4 /* FavoriteHeroesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F552B249519EA00CFC0B4 /* FavoriteHeroesPresenter.swift */; };
 		586F5532249519EA00CFC0B4 /* FavoriteHeroesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F552C249519EA00CFC0B4 /* FavoriteHeroesWorker.swift */; };
-		586F5533249519EA00CFC0B4 /* FavoriteHeroesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F552D249519EA00CFC0B4 /* FavoriteHeroesRouter.swift */; };
 		586F5534249519EA00CFC0B4 /* FavoriteHeroesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F552E249519EA00CFC0B4 /* FavoriteHeroesModels.swift */; };
 		586F5535249519EA00CFC0B4 /* FavoriteHeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F552F249519EA00CFC0B4 /* FavoriteHeroesViewController.swift */; };
 		586F5536249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F5530249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift */; };
@@ -55,7 +54,6 @@
 		586F55222495199200CFC0B4 /* HeroesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesInteractor.swift; sourceTree = "<group>"; };
 		586F552B249519EA00CFC0B4 /* FavoriteHeroesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesPresenter.swift; sourceTree = "<group>"; };
 		586F552C249519EA00CFC0B4 /* FavoriteHeroesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesWorker.swift; sourceTree = "<group>"; };
-		586F552D249519EA00CFC0B4 /* FavoriteHeroesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesRouter.swift; sourceTree = "<group>"; };
 		586F552E249519EA00CFC0B4 /* FavoriteHeroesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesModels.swift; sourceTree = "<group>"; };
 		586F552F249519EA00CFC0B4 /* FavoriteHeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesViewController.swift; sourceTree = "<group>"; };
 		586F5530249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesInteractor.swift; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 			children = (
 				586F552B249519EA00CFC0B4 /* FavoriteHeroesPresenter.swift */,
 				586F552C249519EA00CFC0B4 /* FavoriteHeroesWorker.swift */,
-				586F552D249519EA00CFC0B4 /* FavoriteHeroesRouter.swift */,
 				586F552E249519EA00CFC0B4 /* FavoriteHeroesModels.swift */,
 				586F552F249519EA00CFC0B4 /* FavoriteHeroesViewController.swift */,
 				586F5530249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift */,
@@ -273,7 +270,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				586F553C24951B3E00CFC0B4 /* MainTabBarViewController.swift in Sources */,
-				586F5533249519EA00CFC0B4 /* FavoriteHeroesRouter.swift in Sources */,
 				586F54EE2495129900CFC0B4 /* AppDelegate.swift in Sources */,
 				586F5536249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift in Sources */,
 				586F5532249519EA00CFC0B4 /* FavoriteHeroesWorker.swift in Sources */,
