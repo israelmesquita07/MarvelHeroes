@@ -14,14 +14,14 @@ protocol HeroesPresentationLogic {
     func toggleLoading(_ bool: Bool)
 }
 
-class HeroesPresenter: HeroesPresentationLogic {
+final class HeroesPresenter: HeroesPresentationLogic {
     
     weak var viewController: HeroesDisplayLogic?
     
     // MARK: - Present Heroes
     
     func presentHeroes(response: Heroes.List.Response) {
-        let viewModel = Heroes.List.ViewModel()
+        let viewModel = Heroes.List.ViewModel(heroes: response.heroes)
         viewController?.displayHeroes(viewModel: viewModel)
     }
     

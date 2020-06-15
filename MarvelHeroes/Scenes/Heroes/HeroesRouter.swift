@@ -9,46 +9,38 @@
 import UIKit
 
 @objc protocol HeroesRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToDetails()
 }
 
 protocol HeroesDataPassing {
     var dataStore: HeroesDataStore? { get }
 }
 
-class HeroesRouter: NSObject, HeroesRoutingLogic, HeroesDataPassing {
+final class HeroesRouter: NSObject, HeroesRoutingLogic, HeroesDataPassing {
     
     weak var viewController: HeroesViewController?
     var dataStore: HeroesDataStore?
+
+    // MARK: - Routing
     
-    // MARK: Routing
-    
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
-    //{
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
-    
+    func routeToDetails() {
+        let destinationVC = HeroDetailsViewController()
+        var destinationDS = destinationVC.router!.dataStore!
+        passDataToDetails(source: dataStore!, destination: &destinationDS)
+        navigateToDetails(source: viewController!, destination: destinationVC)
+    }
+
+
     // MARK: Navigation
-    
-    //func navigateToSomewhere(source: HeroesViewController, destination: SomewhereViewController)
-    //{
-    //  source.show(destination, sender: nil)
-    //}
-    
+
+    func navigateToDetails(source: HeroesViewController,
+                           destination: HeroDetailsViewController) {
+        source.navigationController?.pushViewController(destination, animated: true)
+    }
+
     // MARK: Passing data
-    
-    //func passDataToSomewhere(source: HeroesDataStore, destination: inout SomewhereDataStore)
-    //{
-    //  destination.name = source.name
-    //}
+
+    func passDataToDetails(source: HeroesDataStore, destination: inout HeroDetailsDataStore) {
+        destination.hero = source.hero
+    }
 }

@@ -18,6 +18,17 @@ final class HeroesViewController: UIViewController {
     
     var interactor: HeroesBusinessLogic?
     var router: (NSObjectProtocol & HeroesRoutingLogic & HeroesDataPassing)?
+    var errorView: ErrorView?
+    lazy var viewScreen = HeroesViewScreen(delegate: self)
+    lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        searchBar.tintColor = .white
+        searchBar.barTintColor = .white
+        searchBar.barStyle = .black
+        return searchBar
+    }()
     
     // MARK: - Setup
     
@@ -27,8 +38,8 @@ final class HeroesViewController: UIViewController {
         let router = HeroesRouter()
         self.interactor = interactor
         self.router = router
-        interactor.presenter = presenter
         presenter.viewController = self
+        interactor.presenter = presenter
         router.viewController = self
         router.dataStore = interactor
     }
@@ -38,29 +49,131 @@ final class HeroesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        setupView()
+        setupNavigation()
         loadHeroes()
-        view.backgroundColor = .red
+    }
+    
+    // MARK: - Setup View
+    
+    private func setupView() {
+        title = "Heróis Marvel"
+        view.backgroundColor = .white
+        setupViewScreen()
+    }
+    
+    private func setupNavigation() {
+        let navBar = navigationController?.navigationBar
+        navBar?.prefersLargeTitles = true
+        navBar?.tintColor = .white
+        navBar?.barStyle = .black
+        navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        showSearchBarButton(true)
+    }
+
+    private func setupViewScreen() {
+        viewScreen.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(viewScreen)
+        NSLayoutConstraint.activate([
+            viewScreen.topAnchor.constraint(equalTo: view.topAnchor),
+            viewScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            viewScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            viewScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func showErrorView() {
+        guard let errorView = errorView else { return }
+        errorView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(errorView)
+        NSLayoutConstraint.activate([
+            errorView.topAnchor.constraint(equalTo: view.topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     // MARK: - Load Heroes
     
-    func loadHeroes() {
-        let request = Heroes.List.Request()
+    private func loadHeroes(heroName: String = "") {
+        let request = Heroes.List.Request(heroName: heroName)
         interactor?.loadHeroes(request: request)
+    }
+    
+    private func showSearchBarButton(_ bool: Bool) {
+        if bool {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
+    private func search(shouldShow: Bool) {
+        showSearchBarButton(!shouldShow)
+        searchBar.showsCancelButton = shouldShow
+        navigationItem.titleView = shouldShow ? searchBar : nil
+    }
+    
+    @objc private func handleShowSearchBar() {
+        search(shouldShow: true)
+        searchBar.becomeFirstResponder()
     }
 }
 
 //MARK: - HeroesDisplayLogic
 extension HeroesViewController: HeroesDisplayLogic {
     func displayHeroes(viewModel: Heroes.List.ViewModel) {
-        
+        viewScreen.heroes = viewModel.heroes
     }
     
     func displayError(errorDescription: String) {
-        
+        errorView = ErrorView(delegate: self, errorText: errorDescription)
+        showErrorView()
     }
     
     func toggleLoading(_ bool: Bool) {
+        if bool {
+            viewScreen.startLoading()
+            return
+        }
+        viewScreen.stopLoading()
+    }
+}
+
+//MARK: - ViewScreenDelegating
+extension HeroesViewController: ViewScreenDelegating {
+    func didSelectRowAt(hero: Hero) {
+        interactor?.fillDataToDetails(hero: hero)
+        router?.routeToDetails()
+    }
+    
+    func notifyTableViewEnds() {
         
+    }
+    
+    func refreshItems() {
+        loadHeroes()
+    }
+}
+
+//MARK: - UISearchBarDelegate
+extension HeroesViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        search(shouldShow: false)
+        loadHeroes()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        loadHeroes(heroName: searchBar.text ?? "")
+        searchBar.resignFirstResponder()
+    }
+}
+
+//MARK: - ErrorViewHeroesReloading
+extension HeroesViewController: ErrorViewHeroesReloading {
+    func tryAgain() {
+        errorView?.removeFromSuperview()
+        loadHeroes()
     }
 }

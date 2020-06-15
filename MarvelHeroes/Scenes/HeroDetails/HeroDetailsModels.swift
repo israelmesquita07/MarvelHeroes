@@ -1,28 +1,30 @@
 //
-//  HeroesModels.swift
+//  HeroDetailsModels.swift
 //  MarvelHeroes
 //
-//  Created by Israel on 13/06/20.
+//  Created by Israel on 14/06/20.
 //  Copyright (c) 2020 israel3D. All rights reserved.
 //
 
 import UIKit
 
-enum Heroes {
+enum HeroDetails {
     // MARK: Use cases
     
-    enum List {
+    enum Hero {
         
         struct Request {
-            let heroName: String
+            
         }
         
         struct Response {
-            let heroes: [Hero]
+            let imageHero: UIImage
+            let heroDescription: String
         }
         
         struct ViewModel {
-            let heroes: [Hero]
+            let imageHero: UIImage
+            let heroDescription: String
         }
     }
 }
