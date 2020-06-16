@@ -8,9 +8,20 @@
 
 import UIKit
 
+protocol HeroesTableViewDelegating {
+    func markAsFavorite(heroData: HeroData) -> Bool
+}
+
 final class HeroesTableViewCell: UITableViewCell {
     
     private var task: URLSessionTask?
+    var delegate: HeroesTableViewDelegating?
+    var hero: Hero?
+    var updateFavorite: Bool = false {
+        didSet {
+            updateForFavorites(bool: self.updateFavorite)
+        }
+    }
     
     // MARK: - View Code
     
@@ -34,6 +45,15 @@ final class HeroesTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var accessoryButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        button.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
+        button.addTarget(self, action: #selector(markAsFavorite), for: .touchUpInside)
+        button.tintColor = .white
+        return button
+    }()
+    
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -50,6 +70,7 @@ final class HeroesTableViewCell: UITableViewCell {
         contentView.backgroundColor = .black
         contentView.addSubview(heroImageView)
         contentView.addSubview(heroLabel)
+        accessoryView = accessoryButton
         setupConstraints()
     }
     
@@ -74,7 +95,9 @@ final class HeroesTableViewCell: UITableViewCell {
     }
     
     func setupCell(hero: Hero) {
+        self.hero = hero
         heroLabel.text = hero.name
+        accessoryButton.tintColor = (hero.isFavorite ?? false) ? .yellow : .white
         guard let urlImage = URL(string: hero.thumbnail.url) else {
             imageView?.image = nil
             return }
@@ -91,5 +114,18 @@ final class HeroesTableViewCell: UITableViewCell {
             }
         })
         task?.resume()
+    }
+    
+    func updateForFavorites(bool: Bool) {
+        hero?.isFavorite = bool
+        accessoryButton.tintColor = bool ? .yellow : .white
+    }
+    
+    @objc func markAsFavorite() {
+        guard let heroId = hero?.id,
+            let heroName = heroLabel.text,
+            let heroImage = heroImageView.image else { return }
+        let heroData = HeroData(id: heroId, name: heroName, image: heroImage)
+        updateFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false
     }
 }

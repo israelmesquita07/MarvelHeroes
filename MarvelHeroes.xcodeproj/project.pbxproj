@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5835F6752495724700549FD0 /* HeroesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5835F6742495724700549FD0 /* HeroesError.swift */; };
+		583E03A024992AEA00A23CC2 /* FavoriteHeroesViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583E039F24992AEA00A23CC2 /* FavoriteHeroesViewScreen.swift */; };
+		584BAFFB249862E600F27260 /* HeroData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584BAFFA249862E600F27260 /* HeroData.swift */; };
+		584BB0012498696A00F27260 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584BB0002498696A00F27260 /* DatabaseHelper.swift */; };
 		5853D7302495B3F8008D04D2 /* HeroesViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5853D72F2495B3F8008D04D2 /* HeroesViewScreen.swift */; };
 		5853D7332495B47E008D04D2 /* HeroesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5853D7322495B47E008D04D2 /* HeroesTableViewCell.swift */; };
 		585589882497137A004A42B2 /* HeroDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585589822497137A004A42B2 /* HeroDetailsPresenter.swift */; };
@@ -36,6 +39,7 @@
 		586F553C24951B3E00CFC0B4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F553B24951B3E00CFC0B4 /* MainTabBarViewController.swift */; };
 		586F553E2495619600CFC0B4 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F553D2495619600CFC0B4 /* String+Extension.swift */; };
 		586F554124956FBF00CFC0B4 /* MarvelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586F554024956FBF00CFC0B4 /* MarvelInfo.swift */; };
+		5898CE15249876A300C1F52C /* HeroDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584BAFFC2498689B00F27260 /* HeroDataModel.xcdatamodeld */; };
 		58C743B72497C7B7008403CD /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C743B62497C7B7008403CD /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +55,10 @@
 
 /* Begin PBXFileReference section */
 		5835F6742495724700549FD0 /* HeroesError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesError.swift; sourceTree = "<group>"; };
+		583E039F24992AEA00A23CC2 /* FavoriteHeroesViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesViewScreen.swift; sourceTree = "<group>"; };
+		584BAFFA249862E600F27260 /* HeroData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroData.swift; sourceTree = "<group>"; };
+		584BAFFD2498689B00F27260 /* HeroDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeroDataModel.xcdatamodel; sourceTree = "<group>"; };
+		584BB0002498696A00F27260 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		5853D72F2495B3F8008D04D2 /* HeroesViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewScreen.swift; sourceTree = "<group>"; };
 		5853D7322495B47E008D04D2 /* HeroesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesTableViewCell.swift; sourceTree = "<group>"; };
 		585589822497137A004A42B2 /* HeroDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroDetailsPresenter.swift; sourceTree = "<group>"; };
@@ -120,6 +128,15 @@
 				5835F6742495724700549FD0 /* HeroesError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		584BAFFF249868A200F27260 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				584BAFFC2498689B00F27260 /* HeroDataModel.xcdatamodeld */,
+				584BB0002498696A00F27260 /* DatabaseHelper.swift */,
+			);
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 		585042E8249682E20075A34A /* HeroDetails */ = {
@@ -244,6 +261,7 @@
 				586F552E249519EA00CFC0B4 /* FavoriteHeroesModels.swift */,
 				586F552F249519EA00CFC0B4 /* FavoriteHeroesViewController.swift */,
 				586F5530249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift */,
+				583E039F24992AEA00A23CC2 /* FavoriteHeroesViewScreen.swift */,
 			);
 			path = FavoriteHeroes;
 			sourceTree = "<group>";
@@ -268,6 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				586F554024956FBF00CFC0B4 /* MarvelInfo.swift */,
+				584BAFFA249862E600F27260 /* HeroData.swift */,
+				584BAFFF249868A200F27260 /* Core Data */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -385,8 +405,10 @@
 				5855898B2497137A004A42B2 /* HeroDetailsModels.swift in Sources */,
 				586F5536249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift in Sources */,
 				586F5532249519EA00CFC0B4 /* FavoriteHeroesWorker.swift in Sources */,
+				5898CE15249876A300C1F52C /* HeroDataModel.xcdatamodeld in Sources */,
 				5855898C2497137A004A42B2 /* HeroDetailsViewController.swift in Sources */,
 				586F55262495199200CFC0B4 /* HeroesModels.swift in Sources */,
+				583E03A024992AEA00A23CC2 /* FavoriteHeroesViewScreen.swift in Sources */,
 				58C743B72497C7B7008403CD /* ErrorView.swift in Sources */,
 				586F5531249519EA00CFC0B4 /* FavoriteHeroesPresenter.swift in Sources */,
 				586F5535249519EA00CFC0B4 /* FavoriteHeroesViewController.swift in Sources */,
@@ -395,8 +417,10 @@
 				5853D7332495B47E008D04D2 /* HeroesTableViewCell.swift in Sources */,
 				585589892497137A004A42B2 /* HeroDetailsWorker.swift in Sources */,
 				586F55242495199200CFC0B4 /* HeroesWorker.swift in Sources */,
+				584BB0012498696A00F27260 /* DatabaseHelper.swift in Sources */,
 				586F5534249519EA00CFC0B4 /* FavoriteHeroesModels.swift in Sources */,
 				586F55272495199200CFC0B4 /* HeroesViewController.swift in Sources */,
+				584BAFFB249862E600F27260 /* HeroData.swift in Sources */,
 				585589882497137A004A42B2 /* HeroDetailsPresenter.swift in Sources */,
 				586F54F02495129900CFC0B4 /* SceneDelegate.swift in Sources */,
 				586F55252495199200CFC0B4 /* HeroesRouter.swift in Sources */,
@@ -667,6 +691,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		584BAFFC2498689B00F27260 /* HeroDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				584BAFFD2498689B00F27260 /* HeroDataModel.xcdatamodel */,
+			);
+			currentVersion = 584BAFFD2498689B00F27260 /* HeroDataModel.xcdatamodel */;
+			path = HeroDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 586F54E22495129900CFC0B4 /* Project object */;
 }

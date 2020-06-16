@@ -11,6 +11,7 @@ import UIKit
 protocol HeroesPresentationLogic {
     func presentHeroes(response: Heroes.List.Response)
     func presentError(errorDescription: String)
+    func presentAlertError(errorDescription: String)
     func toggleLoading(_ bool: Bool)
 }
 
@@ -29,6 +30,10 @@ final class HeroesPresenter: HeroesPresentationLogic {
     
     func presentError(errorDescription: String) {
         viewController?.displayError(errorDescription: errorDescription)
+    }
+    
+    func presentAlertError(errorDescription: String) {
+        viewController?.displayAlertError(errorDescription: errorDescription)
     }
     
     // MARK: - Toggle Loading

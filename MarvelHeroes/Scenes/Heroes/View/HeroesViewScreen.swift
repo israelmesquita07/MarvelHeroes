@@ -10,6 +10,7 @@ import UIKit
 
 protocol ViewScreenDelegating: AnyObject {
     func didSelectRowAt(hero: Hero)
+    func markAsFavorite(heroData: HeroData) -> Bool
     func notifyTableViewEnds()
     func refreshItems()
 }
@@ -37,7 +38,6 @@ final class HeroesViewScreen: UIView {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .medium
         activityIndicator.color = .white
-//        activityIndicator.tintColor = .white
         activityIndicator.transform = CGAffineTransform(scaleX: 2.5, y: 2.5)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -119,6 +119,8 @@ extension HeroesViewScreen: UITableViewDataSource {
         let hero = heroes[indexPath.row]
         cell.setupCell(hero: hero)
         cell.selectionStyle = .none
+        cell.backgroundColor = .black
+        cell.delegate = self
         return cell
     }
 }
@@ -129,8 +131,15 @@ extension HeroesViewScreen: UITableViewDelegate {
         delegate?.didSelectRowAt(hero: heroes[indexPath.row])
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == heroes.count - 1 {
+        if indexPath.row == heroes.count - 1 && !activityIndicator.isAnimating {
             delegate?.notifyTableViewEnds()
         }
+    }
+}
+
+//MARK: - HeroesTableViewDelegating
+extension HeroesViewScreen: HeroesTableViewDelegating {
+    func markAsFavorite(heroData: HeroData) -> Bool {
+        return delegate?.markAsFavorite(heroData: heroData) ?? false
     }
 }

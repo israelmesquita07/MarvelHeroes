@@ -26,4 +26,20 @@ class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
         let response = FavoriteHeroes.List.Response()
         presenter?.presentFavoriteHeroes(response: response)
     }
+    
+    
+    func fetchFavorites() {
+        if let arrHeroes = DatabaseHelper.shareInstance.fetchHeroData() {
+            //set array
+            print(arrHeroes.debugDescription)
+            
+            
+            
+            
+        } else {
+            presenter?.presentError(errorDescription: "Não foi possível retornar seus favoritos")
+        }
+    }
+    
+    
 }

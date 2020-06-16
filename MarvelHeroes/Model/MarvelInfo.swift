@@ -8,28 +8,36 @@
 
 import Foundation
 
-struct MarvelInfo: Decodable {
+final class MarvelInfo: Decodable {
     let code: Int
     let status: String
     let data: MarvelData
 }
 
-struct MarvelData: Decodable {
+final class MarvelData: Decodable {
     let offset: Int
     let limit: Int
     let total: Int
     let count: Int
-    let results:  [Hero]
+    let results: [Hero]
 }
 
-struct Hero: Decodable {
+final class Hero: Decodable {
     let id: Int
     let name: String
     let description: String
-    let thumbnail:Thumbnail
+    let thumbnail: Thumbnail
+    private var _isFavorite: Bool?
+    var isFavorite: Bool? {
+        get {
+            return self._isFavorite
+        } set (newValue) {
+            self._isFavorite = newValue
+        }
+    }
 }
 
-struct Thumbnail: Codable {
+final class Thumbnail: Codable {
     let path: String
     let ext: String
     var url: String {

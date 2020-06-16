@@ -11,6 +11,7 @@ import UIKit
 protocol HeroesDisplayLogic: class {
     func displayHeroes(viewModel: Heroes.List.ViewModel)
     func displayError(errorDescription: String)
+    func displayAlertError(errorDescription: String)
     func toggleLoading(_ bool: Bool)
 }
 
@@ -70,7 +71,7 @@ final class HeroesViewController: UIViewController {
         navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         showSearchBarButton(true)
     }
-
+    
     private func setupViewScreen() {
         viewScreen.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewScreen)
@@ -99,6 +100,11 @@ final class HeroesViewController: UIViewController {
     private func loadHeroes(heroName: String = "") {
         let request = Heroes.List.Request(heroName: heroName)
         interactor?.loadHeroes(request: request)
+    }
+    
+    private func searchHeroes(heroName: String) {
+        let request = Heroes.List.Request(heroName: heroName)
+        interactor?.searchHeroes(request: request)
     }
     
     private func showSearchBarButton(_ bool: Bool) {
@@ -132,6 +138,10 @@ extension HeroesViewController: HeroesDisplayLogic {
         showErrorView()
     }
     
+    func displayAlertError(errorDescription: String) {
+        //show alert error
+    }
+    
     func toggleLoading(_ bool: Bool) {
         if bool {
             viewScreen.startLoading()
@@ -149,11 +159,15 @@ extension HeroesViewController: ViewScreenDelegating {
     }
     
     func notifyTableViewEnds() {
-        
+        loadHeroes(heroName: searchBar.text ?? "")
     }
     
     func refreshItems() {
-        loadHeroes()
+        searchHeroes(heroName: searchBar.text ?? "")
+    }
+    
+    func markAsFavorite(heroData: HeroData) -> Bool {
+        return interactor?.markAsFavorite(heroData: heroData) ?? false
     }
 }
 
@@ -161,11 +175,11 @@ extension HeroesViewController: ViewScreenDelegating {
 extension HeroesViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(shouldShow: false)
-        loadHeroes()
+        searchHeroes(heroName: "")
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        loadHeroes(heroName: searchBar.text ?? "")
+        searchHeroes(heroName: searchBar.text ?? "")
         searchBar.resignFirstResponder()
     }
 }

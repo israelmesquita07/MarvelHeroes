@@ -50,7 +50,7 @@ final class HeroDetailsViewScreen: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            heroImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            heroImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             heroImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             heroImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             heroImageView.heightAnchor.constraint(equalToConstant: 400.0),

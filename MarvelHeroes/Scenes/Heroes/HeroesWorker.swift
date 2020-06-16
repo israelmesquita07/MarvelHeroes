@@ -54,7 +54,7 @@ final class HeroesWorker: ListHeroesServicing {
     private func getUrl(name:String, page:Int) -> String {
         let basepath = "http://gateway.marvel.com/v1/public/characters?"
         let limit = 50
-        let offset = 0// page * limit
+        let offset = page * limit
         var startsWith: String = ""
         if !name.isEmpty {
             startsWith = "nameStartsWith=\(name.replacingOccurrences(of: " ", with: ""))&"
