@@ -125,6 +125,12 @@ final class HeroesViewController: UIViewController {
         search(shouldShow: true)
         searchBar.becomeFirstResponder()
     }
+    
+    private func showAlertMessage(message: String) {
+        let alert = UIAlertController(title: "Ops!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 //MARK: - HeroesDisplayLogic
@@ -139,7 +145,7 @@ extension HeroesViewController: HeroesDisplayLogic {
     }
     
     func displayAlertError(errorDescription: String) {
-        //show alert error
+        showAlertMessage(message: errorDescription)
     }
     
     func toggleLoading(_ bool: Bool) {
@@ -167,7 +173,11 @@ extension HeroesViewController: ViewScreenDelegating {
     }
     
     func markAsFavorite(heroData: HeroData) -> Bool {
-        return interactor?.markAsFavorite(heroData: heroData) ?? false
+        interactor?.markAsFavorite(heroData: heroData) ?? false
+    }
+    
+    func deleteHeroData(heroId: Int) -> Bool {
+        interactor?.deleteHeroData(heroId: heroId) ?? true
     }
 }
 

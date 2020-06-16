@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HeroData {
+class HeroData: NSObject {
     let id: Int
     let name: String
     let image: UIImage

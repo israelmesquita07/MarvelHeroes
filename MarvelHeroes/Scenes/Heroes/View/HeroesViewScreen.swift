@@ -11,6 +11,7 @@ import UIKit
 protocol ViewScreenDelegating: AnyObject {
     func didSelectRowAt(hero: Hero)
     func markAsFavorite(heroData: HeroData) -> Bool
+    func deleteHeroData(heroId: Int) -> Bool
     func notifyTableViewEnds()
     func refreshItems()
 }
@@ -140,6 +141,10 @@ extension HeroesViewScreen: UITableViewDelegate {
 //MARK: - HeroesTableViewDelegating
 extension HeroesViewScreen: HeroesTableViewDelegating {
     func markAsFavorite(heroData: HeroData) -> Bool {
-        return delegate?.markAsFavorite(heroData: heroData) ?? false
+        delegate?.markAsFavorite(heroData: heroData) ?? false
+    }
+    
+    func deleteHeroData(heroId: Int) -> Bool {
+        delegate?.deleteHeroData(heroId: heroId) ?? true
     }
 }

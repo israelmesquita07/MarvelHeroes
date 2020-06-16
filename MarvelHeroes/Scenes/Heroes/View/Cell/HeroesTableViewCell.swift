@@ -8,8 +8,10 @@
 
 import UIKit
 
+
 protocol HeroesTableViewDelegating {
     func markAsFavorite(heroData: HeroData) -> Bool
+    func deleteHeroData(heroId: Int) -> Bool
 }
 
 final class HeroesTableViewCell: UITableViewCell {
@@ -49,7 +51,7 @@ final class HeroesTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "star.fill"), for: .normal)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
-        button.addTarget(self, action: #selector(markAsFavorite), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toogleAsFavorite), for: .touchUpInside)
         button.tintColor = .white
         return button
     }()
@@ -121,9 +123,13 @@ final class HeroesTableViewCell: UITableViewCell {
         accessoryButton.tintColor = bool ? .yellow : .white
     }
     
-    @objc func markAsFavorite() {
-        guard let heroId = hero?.id,
-            let heroName = heroLabel.text,
+    @objc func toogleAsFavorite() {
+        guard let heroId = hero?.id else { return }
+        if hero?.isFavorite ?? false {
+            updateFavorite = delegate?.deleteHeroData(heroId: heroId) ?? updateFavorite
+            return
+        }
+        guard let heroName = heroLabel.text,
             let heroImage = heroImageView.image else { return }
         let heroData = HeroData(id: heroId, name: heroName, image: heroImage)
         updateFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false

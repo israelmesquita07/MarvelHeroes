@@ -48,4 +48,16 @@ final class DatabaseHelper {
         }
         return fetchingHeroData
     }
+    
+    func deleteHeroData(heroId: Int) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "HeroDataModel")
+        if let heroData = try? context.fetch(fetchRequest) {
+            if let index = heroData.firstIndex(where: { ($0 as AnyObject).id == heroId }) {
+                context.delete(heroData[index] as! NSManagedObject)
+                return true
+            }
+            return false
+        }
+        return false
+    }
 }

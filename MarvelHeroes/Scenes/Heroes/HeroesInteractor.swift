@@ -13,6 +13,7 @@ protocol HeroesBusinessLogic {
     func searchHeroes(request: Heroes.List.Request)
     func fillDataToDetails(hero: Hero)
     func markAsFavorite(heroData: HeroData) -> Bool
+    func deleteHeroData(heroId: Int) -> Bool
 }
 
 protocol HeroesDataStore {
@@ -26,7 +27,7 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
     var hero: Hero?
     var page = 0, totalHeros = 1
     var results: [Hero] = []
-
+    
     // MARK: - Load Heroes
     
     func loadHeroes(request: Heroes.List.Request) {
@@ -36,9 +37,9 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         presenter?.toggleLoading(true)
         worker = worker ?? HeroesWorker()
         worker?.fetchHeroes(name: request.heroName, page: page, completion: { result in
-//            guard let self = self else {
-//                print("weak self")
-//                return }
+            //            guard let self = self else {
+            //                print("weak self")
+            //                return }
             switch result {
             case .success(let heroes):
                 self.page += 1
@@ -73,14 +74,20 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
     // MARK: - Core Data
     
     func markAsFavorite(heroData: HeroData) -> Bool {
-        DatabaseHelper.shareInstance.saveHeroData(data: heroData)
-//        let saved = DatabaseHelper.shareInstance.saveHeroData(data: heroData)
-//        if saved {
-//            // mudar cell para favoritos
-//            return true
-//        } else {
-//            return false
-////            presenter?.presentAlertError(errorDescription: "Não foi possível favoritar \(heroData.name)")
-//        }
+        if DatabaseHelper.shareInstance.saveHeroData(data: heroData) {
+            return true
+        } else {
+            presenter?.presentAlertError(errorDescription: "Não foi possível favoritar \(heroData.name)")
+            return false
+        }
+    }
+    
+    func deleteHeroData(heroId: Int) -> Bool {
+        if DatabaseHelper.shareInstance.deleteHeroData(heroId: heroId) {
+            return false
+        } else {
+            presenter?.presentAlertError(errorDescription: "Não foi possível desfavoritar")
+            return true
+        }
     }
 }
