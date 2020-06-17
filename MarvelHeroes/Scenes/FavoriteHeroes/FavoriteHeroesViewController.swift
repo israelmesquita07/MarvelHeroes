@@ -14,7 +14,7 @@ protocol FavoriteHeroesDisplayLogic: class {
     func toggleLoading(_ bool: Bool)
 }
 
-class FavoriteHeroesViewController: UIViewController {
+final class FavoriteHeroesViewController: UIViewController {
     
     var interactor: FavoriteHeroesBusinessLogic?
     

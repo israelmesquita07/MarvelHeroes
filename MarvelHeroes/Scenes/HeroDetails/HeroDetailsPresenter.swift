@@ -9,8 +9,9 @@
 import UIKit
 
 protocol HeroDetailsPresentationLogic {
-    func presentHeroDetails(response: HeroDetails.Hero.Response)
+    func presentHeroDetails(response: HeroDetails.Details.Response)
     func presentError(errorDescription: String)
+    func presentAlertError(errorDescription: String)
 }
 
 final class HeroDetailsPresenter: HeroDetailsPresentationLogic {
@@ -19,8 +20,8 @@ final class HeroDetailsPresenter: HeroDetailsPresentationLogic {
     
     // MARK: - Present Hero Details
     
-    func presentHeroDetails(response: HeroDetails.Hero.Response) {
-        let viewModel = HeroDetails.Hero.ViewModel(imageHero: response.imageHero, heroDescription: response.heroDescription)
+    func presentHeroDetails(response: HeroDetails.Details.Response) {
+        let viewModel = HeroDetails.Details.ViewModel(imageHero: response.imageHero, hero: response.hero)
         viewController?.displayHeroImage(viewModel: viewModel)
     }
     
@@ -28,5 +29,9 @@ final class HeroDetailsPresenter: HeroDetailsPresentationLogic {
     
     func presentError(errorDescription: String) {
         viewController?.displayError(errorDescription: errorDescription)
+    }
+    
+    func presentAlertError(errorDescription: String) {
+        viewController?.displayAlertError(errorDescription: errorDescription)
     }
 }

@@ -27,7 +27,7 @@ final class Hero: Decodable {
     let name: String
     let description: String
     let thumbnail: Thumbnail
-    private var _isFavorite: Bool?
+    var _isFavorite: Bool?
     var isFavorite: Bool? {
         get {
             return self._isFavorite

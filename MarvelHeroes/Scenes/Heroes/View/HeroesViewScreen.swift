@@ -27,14 +27,14 @@ final class HeroesViewScreen: UIView {
     
     // MARK: - View Code
 
-    lazy var refreshControl: UIRefreshControl = {
+    private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Atualizando heróis...")
         refreshControl.addTarget(self, action: #selector(refreshItems(_:)), for: .valueChanged)
         return refreshControl
     }()
     
-    lazy var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .medium
@@ -44,7 +44,7 @@ final class HeroesViewScreen: UIView {
         return activityIndicator
     }()
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.refreshControl = refreshControl
@@ -100,6 +100,10 @@ final class HeroesViewScreen: UIView {
         refreshControl.endRefreshing()
         activityIndicator.stopAnimating()
         tableView.isUserInteractionEnabled = true
+    }
+    
+    func reloadData() {
+        tableView.reloadData()
     }
     
     @objc private func refreshItems(_ sender: Any) {

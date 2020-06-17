@@ -43,9 +43,9 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
             switch result {
             case .success(let heroes):
                 self.page += 1
-                print("página: \(self.page)")
                 self.totalHeros = heroes.data.total
                 self.results += heroes.data.results
+                self.fetchFavorites()
                 let response = Heroes.List.Response(heroes: self.results)
                 self.presenter?.presentHeroes(response: response)
                 self.presenter?.toggleLoading(false)
@@ -88,6 +88,16 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         } else {
             presenter?.presentAlertError(errorDescription: "Não foi possível desfavoritar")
             return true
+        }
+    }
+    
+    private func fetchFavorites() {
+        if let arrHeroes = DatabaseHelper.shareInstance.fetchHeroData() {
+            for item in results {
+                for itemData in arrHeroes {
+                    item._isFavorite = itemData.id == item.id
+                }
+            }
         }
     }
 }

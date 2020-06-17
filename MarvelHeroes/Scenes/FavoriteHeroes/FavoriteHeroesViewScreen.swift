@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoriteHeroesViewScreen: UIView {
+final class FavoriteHeroesViewScreen: UIView {
     
     var favoriteHeroes: [Hero] = [] {
         didSet {

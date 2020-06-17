@@ -19,11 +19,6 @@ final class HeroesTableViewCell: UITableViewCell {
     private var task: URLSessionTask?
     var delegate: HeroesTableViewDelegating?
     var hero: Hero?
-    var updateFavorite: Bool = false {
-        didSet {
-            updateForFavorites(bool: self.updateFavorite)
-        }
-    }
     
     // MARK: - View Code
     
@@ -51,7 +46,7 @@ final class HeroesTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "star.fill"), for: .normal)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
-        button.addTarget(self, action: #selector(toogleAsFavorite), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toggleAsFavorite), for: .touchUpInside)
         button.tintColor = .white
         return button
     }()
@@ -118,20 +113,21 @@ final class HeroesTableViewCell: UITableViewCell {
         task?.resume()
     }
     
-    func updateForFavorites(bool: Bool) {
-        hero?.isFavorite = bool
-        accessoryButton.tintColor = bool ? .yellow : .white
+    private func updateAccessoryButtonForFavorites() {
+        accessoryButton.tintColor = hero?.isFavorite ?? false ? .yellow : .white
     }
     
-    @objc func toogleAsFavorite() {
+    @objc func toggleAsFavorite() {
         guard let heroId = hero?.id else { return }
         if hero?.isFavorite ?? false {
-            updateFavorite = delegate?.deleteHeroData(heroId: heroId) ?? updateFavorite
+            hero?.isFavorite = delegate?.deleteHeroData(heroId: heroId) ?? hero?.isFavorite
+            updateAccessoryButtonForFavorites()
             return
         }
         guard let heroName = heroLabel.text,
             let heroImage = heroImageView.image else { return }
         let heroData = HeroData(id: heroId, name: heroName, image: heroImage)
-        updateFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false
+        hero?.isFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false
+        updateAccessoryButtonForFavorites()
     }
 }

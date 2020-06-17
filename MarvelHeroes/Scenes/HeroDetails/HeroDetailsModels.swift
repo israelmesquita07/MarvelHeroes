@@ -11,7 +11,7 @@ import UIKit
 enum HeroDetails {
     // MARK: Use cases
     
-    enum Hero {
+    enum Details {
         
         struct Request {
             
@@ -19,12 +19,12 @@ enum HeroDetails {
         
         struct Response {
             let imageHero: UIImage
-            let heroDescription: String
+            let hero: Hero
         }
         
         struct ViewModel {
             let imageHero: UIImage
-            let heroDescription: String
+            let hero: Hero
         }
     }
 }

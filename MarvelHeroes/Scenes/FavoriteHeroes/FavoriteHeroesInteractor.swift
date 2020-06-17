@@ -12,7 +12,7 @@ protocol FavoriteHeroesBusinessLogic {
     func loadFavoriteHeroes(request: FavoriteHeroes.List.Request)
 }
 
-class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
+final class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
     
     var presenter: FavoriteHeroesPresentationLogic?
     var worker: ListFavoriteHeroesServicing?
@@ -26,7 +26,6 @@ class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
         let response = FavoriteHeroes.List.Response()
         presenter?.presentFavoriteHeroes(response: response)
     }
-    
     
     func fetchFavorites() {
         if let arrHeroes = DatabaseHelper.shareInstance.fetchHeroData() {

@@ -12,7 +12,7 @@ protocol ListFavoriteHeroesServicing {
     func fetchFavoriteHeroes()
 }
 
-class FavoriteHeroesWorker: ListFavoriteHeroesServicing {
+final class FavoriteHeroesWorker: ListFavoriteHeroesServicing {
     
     func fetchFavoriteHeroes() {
         

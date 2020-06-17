@@ -55,6 +55,11 @@ final class HeroesViewController: UIViewController {
         loadHeroes()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewScreen.reloadData()
+    }
+    
     // MARK: - Setup View
     
     private func setupView() {

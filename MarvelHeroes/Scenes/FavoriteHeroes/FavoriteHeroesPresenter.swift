@@ -14,7 +14,7 @@ protocol FavoriteHeroesPresentationLogic {
     func toggleLoading(_ bool: Bool)
 }
 
-class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
+final class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
     
     weak var viewController: FavoriteHeroesDisplayLogic?
     
