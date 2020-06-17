@@ -15,30 +15,20 @@ protocol FavoriteHeroesBusinessLogic {
 final class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
     
     var presenter: FavoriteHeroesPresentationLogic?
-    var worker: ListFavoriteHeroesServicing?
     
     // MARK: Load Favorite Heroes
     
     func loadFavoriteHeroes(request: FavoriteHeroes.List.Request) {
-        worker = worker ?? FavoriteHeroesWorker()
-        worker?.fetchFavoriteHeroes()
-        
-        let response = FavoriteHeroes.List.Response()
-        presenter?.presentFavoriteHeroes(response: response)
-    }
-    
-    func fetchFavorites() {
-        if let arrHeroes = DatabaseHelper.shareInstance.fetchHeroData() {
-            //set array
-            print(arrHeroes.debugDescription)
-            
-            
-            
-            
-        } else {
-            presenter?.presentError(errorDescription: "Não foi possível retornar seus favoritos")
+        let heroes = fetchFavorites()
+        if heroes.count > 0 {
+            let response = FavoriteHeroes.List.Response(heroes: heroes)
+            presenter?.presentFavoriteHeroes(response: response)
+            return
         }
+        presenter?.presentError(errorDescription: "Não encontramos nenhum dos seus favoritos")
     }
     
-    
+    private func fetchFavorites() -> [HeroData] {
+        DatabaseHelper.shareInstance.fetchHeroData() ?? []
+    }
 }

@@ -46,8 +46,13 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
                 self.totalHeros = heroes.data.total
                 self.results += heroes.data.results
                 self.fetchFavorites()
-                let response = Heroes.List.Response(heroes: self.results)
-                self.presenter?.presentHeroes(response: response)
+                if self.results.count > 0 {
+                    let response = Heroes.List.Response(heroes: self.results)
+                    self.presenter?.presentHeroes(response: response)
+                    self.presenter?.toggleLoading(false)
+                    return
+                }
+                self.presenter?.presentError(errorDescription: "Infelizmente estamos sem heróis")
                 self.presenter?.toggleLoading(false)
             case .failure(let error):
                 self.presenter?.presentError(errorDescription: error.localizedDescription)

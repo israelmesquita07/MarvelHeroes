@@ -101,6 +101,13 @@ final class HeroesTableViewCell: UITableViewCell {
         loadImage(urlImage)
     }
     
+    func setupCellForFavorites(hero: Hero, heroImage: UIImage) {
+        self.hero = hero
+        heroLabel.text = hero.name
+        accessoryButton.isHidden = true
+        heroImageView.image = heroImage
+    }
+    
     private func loadImage(_ urlImage: URL) {
         task = URLSession.shared.dataTask(with: urlImage, completionHandler: { (data, _, error) in
             if error == nil, let data = data {

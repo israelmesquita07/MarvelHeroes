@@ -18,11 +18,11 @@ enum FavoriteHeroes {
         }
         
         struct Response {
-            
+            let heroes: [HeroData]
         }
         
         struct ViewModel {
-            
+            let heroes: [HeroData]
         }
     }
 }

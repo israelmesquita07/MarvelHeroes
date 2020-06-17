@@ -11,7 +11,6 @@ import UIKit
 protocol FavoriteHeroesPresentationLogic {
     func presentFavoriteHeroes(response: FavoriteHeroes.List.Response)
     func presentError(errorDescription: String)
-    func toggleLoading(_ bool: Bool)
 }
 
 final class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
@@ -21,7 +20,7 @@ final class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
     // MARK: Present Favorite Heroes
     
     func presentFavoriteHeroes(response: FavoriteHeroes.List.Response) {
-        let viewModel = FavoriteHeroes.List.ViewModel()
+        let viewModel = FavoriteHeroes.List.ViewModel(heroes: response.heroes)
         viewController?.displayFavoriteHeroes(viewModel: viewModel)
     }
     
@@ -29,11 +28,5 @@ final class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
     
     func presentError(errorDescription: String) {
         viewController?.displayError(errorDescription: errorDescription)
-    }
-    
-    // MARK: - Toggle Loading
-    
-    func toggleLoading(_ bool: Bool) {
-        viewController?.toggleLoading(bool)
     }
 }

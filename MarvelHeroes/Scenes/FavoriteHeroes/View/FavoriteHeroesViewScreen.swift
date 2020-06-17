@@ -10,7 +10,7 @@ import UIKit
 
 final class FavoriteHeroesViewScreen: UIView {
     
-    var favoriteHeroes: [Hero] = [] {
+    var favoriteHeroes: [HeroData] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -22,11 +22,10 @@ final class FavoriteHeroesViewScreen: UIView {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.rowHeight = 120.0
         tableView.backgroundColor = .black
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(HeroesTableViewCell.self, forCellReuseIdentifier: String(describing: HeroesTableViewCell.self))
+        tableView.register(FavoriteHeroesTableViewCell.self, forCellReuseIdentifier: String(describing: FavoriteHeroesTableViewCell.self))
         return tableView
     }()
     
@@ -64,20 +63,13 @@ extension FavoriteHeroesViewScreen: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HeroesTableViewCell.self), for: indexPath) as? HeroesTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FavoriteHeroesTableViewCell.self), for: indexPath) as? FavoriteHeroesTableViewCell else {
             return UITableViewCell()
         }
-        let hero = favoriteHeroes[indexPath.row]
-        cell.setupCell(hero: hero)
+        let heroData = favoriteHeroes[indexPath.row]
+        cell.setupCell(heroName: heroData.name, heroImage: heroData.image)
         cell.selectionStyle = .none
         cell.backgroundColor = .black
         return cell
-    }
-}
-
-//MARK: - UITableViewDelegate
-extension FavoriteHeroesViewScreen: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        delegate?.didSelectRowAt(hero: favoriteHeroes[indexPath.row])
     }
 }
