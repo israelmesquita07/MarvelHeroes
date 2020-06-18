@@ -37,7 +37,7 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
             switch result {
             case .success(let image):
                 let response = HeroDetails.Details.Response(imageHero: image, hero: hero)
-                self.presenter?.presentHeroDetails(response: response)
+                self.presenter?.presentHeroImage(response: response)
             case .failure(let error):
                 self.presenter?.presentError(errorDescription: error.localizedDescription)
             }

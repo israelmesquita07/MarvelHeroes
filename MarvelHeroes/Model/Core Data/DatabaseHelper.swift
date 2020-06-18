@@ -76,7 +76,6 @@ final class DatabaseHelper {
             try context.save()
             return false
         } catch {
-            print ("There was an error")
             return true
         }
     }

@@ -23,7 +23,7 @@ final class HeroDetailsPresenterSpy {
 
 //MARK: - HeroDetailsPresentationLogic
 extension HeroDetailsPresenterSpy: HeroDetailsPresentationLogic {
-    func presentHeroDetails(response: HeroDetails.Details.Response) {
+    func presentHeroImage(response: HeroDetails.Details.Response) {
         presentHeroDetailsCalled = true
     }
     

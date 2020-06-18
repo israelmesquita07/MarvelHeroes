@@ -21,7 +21,6 @@ final class HeroesWorker: ListHeroesServicing {
             completion(.failure(.invalidUrl))
             return
         }
-        print(url)
         let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
             guard error == nil else {
                 DispatchQueue.main.async {

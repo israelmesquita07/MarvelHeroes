@@ -31,7 +31,7 @@ class HeroDetailsPresenterTests: XCTestCase {
         let hero = Hero(id: -1, name: "", description: "", thumbnail: thumbnail)
         let response = HeroDetails.Details.Response(imageHero: UIImage(), hero: hero)
         //ACT
-        sut.presentHeroDetails(response: response)
+        sut.presentHeroImage(response: response)
         //Assert
         XCTAssertTrue(viewControllerSpy.displayHeroImageCalled, "displayHeroImage() should be called in presentHeroDetails() from HeroDetailsPresenter")
     }

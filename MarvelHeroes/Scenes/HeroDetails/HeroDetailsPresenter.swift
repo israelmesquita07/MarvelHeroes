@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HeroDetailsPresentationLogic {
-    func presentHeroDetails(response: HeroDetails.Details.Response)
+    func presentHeroImage(response: HeroDetails.Details.Response)
     func presentError(errorDescription: String)
     func presentAlertError(errorDescription: String)
 }
@@ -20,7 +20,7 @@ final class HeroDetailsPresenter: HeroDetailsPresentationLogic {
     
     // MARK: - Present Hero Details
     
-    func presentHeroDetails(response: HeroDetails.Details.Response) {
+    func presentHeroImage(response: HeroDetails.Details.Response) {
         let viewModel = HeroDetails.Details.ViewModel(imageHero: response.imageHero, hero: response.hero)
         viewController?.displayHeroImage(viewModel: viewModel)
     }
