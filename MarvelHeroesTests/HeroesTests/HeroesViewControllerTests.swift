@@ -9,7 +9,7 @@
 import XCTest
 @testable import MarvelHeroes
 
-class HeroesViewControllerTests: XCTestCase {
+final class HeroesViewControllerTests: XCTestCase {
     
     var sut: HeroesViewController!
     var window: UIWindow!

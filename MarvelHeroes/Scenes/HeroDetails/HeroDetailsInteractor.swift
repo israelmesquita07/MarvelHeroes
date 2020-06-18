@@ -29,6 +29,7 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
     func loadHeroImage(request: HeroDetails.Details.Request) {
         worker = worker ?? HeroDetailsWorker()
         guard let url = hero?.thumbnail.url, let hero = hero else {
+            self.presenter?.presentError(errorDescription: "Ocorreu um erro")
             return
         }
         worker?.fetchHeroImage(url: url) { [weak self] result in
@@ -38,7 +39,7 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
                 let response = HeroDetails.Details.Response(imageHero: image, hero: hero)
                 self.presenter?.presentHeroDetails(response: response)
             case .failure(let error):
-                print(error.localizedDescription)
+                self.presenter?.presentError(errorDescription: error.localizedDescription)
             }
         }
     }

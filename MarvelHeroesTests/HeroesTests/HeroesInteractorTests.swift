@@ -9,11 +9,12 @@
 import XCTest
 @testable import MarvelHeroes
 
-class HeroesInteractorTests: XCTestCase {
+final class HeroesInteractorTests: XCTestCase {
     // MARK: Subject under test
     
     var sut: HeroesInteractor!
     var presenterSpy: HeroesPresenterSpy!
+    var workerSpy: HeroesWorkerSpy!
     
     // MARK: Test lifecycle
     
@@ -26,27 +27,7 @@ class HeroesInteractorTests: XCTestCase {
         sut = nil
         super.tearDown()
     }
-    
-    func testpresentHeroesCalledInLoadHeroes() {
-        //Arranje
-        setupSpies()
-        let request = Heroes.List.Request(heroName: "spider")
-        //ACT
-        sut.loadHeroes(request: request)
-        //Assert
-        XCTAssertTrue(presenterSpy.presentHeroesCalled, "presentHeroesCalled() should be called in loadHeroes() from HeroesInteractor")
-    }
-    
-    func testPresentErrorCalledInLoadHeroes() {
-        //Arranje
-        setupSpies()
-        let request = Heroes.List.Request(heroName: "spider")
-        //ACT
-        sut.loadHeroes(request: request)
-        //Assert
-        XCTAssertTrue(presenterSpy.presentErrorCalled, "presentErrorCalled() should be called in loadHeroes() from HeroesInteractor")
-    }
-    
+
     func testPresentAlertErrorCalledInDeleteHeroData() {
         //Arranje
         setupSpies()
@@ -75,11 +56,33 @@ class HeroesInteractorTests: XCTestCase {
         //Assert
         XCTAssertTrue(presenterSpy.toggleLoadingCalled, "toggleLoading() should be called in loadHeroes() from HeroesInteractor")
     }
+    
+    func testFetchHeroesCalledInLoadHeroes() {
+        //Arranje
+        setupSpies()
+        let request = Heroes.List.Request(heroName: "spider")
+        //ACT
+        sut.loadHeroes(request: request)
+        //Assert
+        XCTAssertTrue(workerSpy.fetchHeroesCalled, "fetchHeroes() should be called in loadHeroes() from HeroesInteractor")
+    }
+    
+    func testFillDataToDetails() {
+        //Arranje
+        let thumbnail = Thumbnail(path: "path", ext: "extension")
+        let hero = Hero(id: -1, name: "", description: "", thumbnail: thumbnail)
+        //ACT
+        sut.fillDataToDetails(hero: hero)
+        //Assert
+        XCTAssertNotNil(sut.hero, "sut.hero should be not nil when fillDataToDetails() is called")
+    }
 }
 
 //MARK: - Spies
 extension HeroesInteractorTests {
     func setupSpies() {
+        workerSpy = HeroesWorkerSpy()
+        sut.worker = workerSpy
         presenterSpy = HeroesPresenterSpy()
         sut.presenter = presenterSpy
     }

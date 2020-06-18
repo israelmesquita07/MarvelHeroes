@@ -6,40 +6,56 @@
 //  Copyright (c) 2020 israel3D. All rights reserved.
 //
 
-@testable import MarvelHeroes
 import XCTest
+@testable import MarvelHeroes
 
-class HeroesWorkerTests: XCTestCase {
-    // MARK: Subject under test
+final class HeroesWorkerTests: XCTestCase {
     
     var sut: HeroesWorker!
     
-    // MARK: Test lifecycle
-    
     override func setUp() {
         super.setUp()
-        setupHeroesWorker()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-    
-    // MARK: Test setup
-    
-    func setupHeroesWorker() {
         sut = HeroesWorker()
     }
     
-    // MARK: Test doubles
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
-    // MARK: Tests
+    func testFetchHeroesSuccess() {
+        //Arranje
+        let expectation = XCTestExpectation(description: "heroesExpectation")
+        //ACT
+        sut.fetchHeroes(name: "spider", page: 0) { result in
+            switch result {
+            case .success(let heroes):
+                //Assert
+                XCTAssertNotNil(heroes, "heroes should not be nil")
+                expectation.fulfill()
+            default:
+                break
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
     
-    func testSomething() {
-        // Given
-        
-        // When
-        
-        // Then
+    func testFetchHeroImageDecodeError() {
+        //Arranje
+        let expectation = XCTestExpectation(description: "heroesExpectation")
+        //ACT
+        sut.fetchHeroes(name: "-1", page: -1) { result in
+            switch result {
+            case .failure(let error):
+                if case HeroesError.decodeError = error {
+                    //Assert
+                    XCTAssertNotNil(error, "error invalidUrl should not be nil")
+                    expectation.fulfill()
+                }
+            default:
+                break
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
     }
 }
