@@ -57,6 +57,7 @@ final class HeroesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        errorView?.removeFromSuperview()
         viewScreen.reloadData()
     }
     

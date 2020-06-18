@@ -88,7 +88,7 @@ final class HeroDetailsViewScreen: UIView {
             
             favoriteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            favoriteButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            favoriteButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             favoriteButton.heightAnchor.constraint(equalToConstant: 100.0)
         ])
     }

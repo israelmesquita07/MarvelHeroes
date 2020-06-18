@@ -87,7 +87,7 @@
 		586F552E249519EA00CFC0B4 /* FavoriteHeroesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesModels.swift; sourceTree = "<group>"; };
 		586F552F249519EA00CFC0B4 /* FavoriteHeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesViewController.swift; sourceTree = "<group>"; };
 		586F5530249519EA00CFC0B4 /* FavoriteHeroesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroesInteractor.swift; sourceTree = "<group>"; };
-		586F553B24951B3E00CFC0B4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		586F553B24951B3E00CFC0B4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = "../New Group/MainTabBarViewController.swift"; sourceTree = "<group>"; };
 		586F553D2495619600CFC0B4 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		586F554024956FBF00CFC0B4 /* MarvelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelInfo.swift; sourceTree = "<group>"; };
 		58C743B62497C7B7008403CD /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
@@ -204,7 +204,6 @@
 				586F54FB2495129F00CFC0B4 /* Info.plist */,
 				586F553A24951A4D00CFC0B4 /* View */,
 				586F55292495199600CFC0B4 /* Scenes */,
-				586F553B24951B3E00CFC0B4 /* MainTabBarViewController.swift */,
 				586F554224956FC400CFC0B4 /* Model */,
 				5835F6762495724E00549FD0 /* Commons */,
 			);
@@ -269,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				586F54F82495129F00CFC0B4 /* LaunchScreen.storyboard */,
+				586F553B24951B3E00CFC0B4 /* MainTabBarViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

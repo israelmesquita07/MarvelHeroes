@@ -35,9 +35,13 @@ final class FavoriteHeroesViewController: UIViewController {
         super.viewDidLoad()
         setup()
         setupView()
-
+        setupNavigation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        errorView?.removeFromSuperview()
         loadFavoriteHeroes()
-        view.backgroundColor = .blue
     }
     
     // MARK: - Setup View
@@ -46,6 +50,14 @@ final class FavoriteHeroesViewController: UIViewController {
         title = "Heróis Favoritos"
         view.backgroundColor = .white
         setupViewScreen()
+    }
+    
+    private func setupNavigation() {
+        let navBar = navigationController?.navigationBar
+        navBar?.prefersLargeTitles = true
+        navBar?.tintColor = .white
+        navBar?.barStyle = .black
+        navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     private func setupViewScreen() {

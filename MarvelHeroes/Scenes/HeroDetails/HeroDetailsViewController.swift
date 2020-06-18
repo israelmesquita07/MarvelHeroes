@@ -55,6 +55,11 @@ final class HeroDetailsViewController: UIViewController {
         loadHeroImage()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        errorView?.removeFromSuperview()
+    }
+    
     // MARK: - Setup View
     
     private func setupView() {

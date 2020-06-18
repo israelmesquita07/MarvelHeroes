@@ -8,13 +8,13 @@
 
 import Foundation
 
-final class MarvelInfo: Decodable {
+struct MarvelInfo: Decodable {
     let code: Int
     let status: String
     let data: MarvelData
 }
 
-final class MarvelData: Decodable {
+struct MarvelData: Decodable {
     let offset: Int
     let limit: Int
     let total: Int
@@ -44,7 +44,7 @@ final class Hero: Decodable {
     }
 }
 
-final class Thumbnail: Codable {
+struct Thumbnail: Codable {
     let path: String
     let ext: String
     var url: String {
@@ -53,10 +53,5 @@ final class Thumbnail: Codable {
     enum CodingKeys: String, CodingKey {
         case path
         case ext = "extension"
-    }
-    
-    init(path: String, ext: String) {
-        self.path = path
-        self.ext = ext
     }
 }

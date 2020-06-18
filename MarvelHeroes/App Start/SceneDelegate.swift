@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 //        let navigationController = UINavigationController(rootViewController: HeroesViewController())
 //        window?.rootViewController = navigationController//MainTabBarViewController()
-        window?.rootViewController = FavoriteHeroesViewController()
+        window?.rootViewController = MainTabBarViewController()
         window?.makeKeyAndVisible()
     }
 }
