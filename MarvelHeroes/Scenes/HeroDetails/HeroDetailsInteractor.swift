@@ -31,7 +31,8 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
         guard let url = hero?.thumbnail.url, let hero = hero else {
             return
         }
-        worker?.fetchHeroImage(url: url) { result in
+        worker?.fetchHeroImage(url: url) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let image):
                 let response = HeroDetails.Details.Response(imageHero: image, hero: hero)

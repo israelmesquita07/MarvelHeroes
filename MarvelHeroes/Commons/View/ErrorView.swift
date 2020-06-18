@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol ErrorViewHeroesReloading {
+protocol ErrorViewHeroesReloading: AnyObject {
     func tryAgain()
 }
 
 final class ErrorView: UIView {
     
-    let delegate: ErrorViewHeroesReloading
+    weak var delegate: ErrorViewHeroesReloading?
     
     // MARK: - View Code
     
@@ -77,6 +77,6 @@ final class ErrorView: UIView {
     }
     
     @objc private func tryAgain() {
-        delegate.tryAgain()
+        delegate?.tryAgain()
     }
 }

@@ -30,7 +30,6 @@ final class HeroesRouter: NSObject, HeroesRoutingLogic, HeroesDataPassing {
         navigateToDetails(source: viewController!, destination: destinationVC)
     }
 
-
     // MARK: Navigation
 
     func navigateToDetails(source: HeroesViewController,

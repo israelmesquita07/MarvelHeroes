@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol HeroDetailsViewScreenDelegating {
+protocol HeroDetailsViewScreenDelegating: AnyObject {
     func markAsFavorite(heroData: HeroData) -> Bool
     func deleteHeroData(heroId: Int) -> Bool
 }
@@ -16,12 +16,7 @@ protocol HeroDetailsViewScreenDelegating {
 final class HeroDetailsViewScreen: UIView {
     
     var hero: Hero?
-    var delegate: HeroDetailsViewScreenDelegating?
-//    var updateFavorite: Bool = false {
-//        didSet {
-//            updateForFavorites()
-//        }
-//    }
+    weak var delegate: HeroDetailsViewScreenDelegating?
     
     // MARK: - View Code
     
@@ -101,26 +96,21 @@ final class HeroDetailsViewScreen: UIView {
         favoriteButton.setTitleColor(hero.isFavorite ?? false ? .yellow : .white, for: .normal)
     }
     
-//    func updateForFavorites() {
-//        hero?.isFavorite = updateFavorite
-//        favoriteButton.setTitle(updateFavorite ? "Favorito!" : "Favoritar", for: .normal)
-//        favoriteButton.setTitleColor(updateFavorite ? .yellow : .white, for: .normal)
-//    }
-    
     @objc func toggleAsFavorite() {
         guard let heroId = hero?.id else { return }
         if hero?.isFavorite ?? false {
-//            updateFavorite = delegate?.deleteHeroData(heroId: heroId) ?? updateFavorite
             hero?.isFavorite = delegate?.deleteHeroData(heroId: heroId) ?? hero?.isFavorite
-            favoriteButton.setTitle(hero?.isFavorite ?? false ? "Favorito!" : "Favoritar", for: .normal)
-            favoriteButton.setTitleColor(hero?.isFavorite ?? false ? .yellow : .white, for: .normal)
+            updateFavoriteButtonForFavorites()
             return
         }
         guard let heroName = hero?.name, 
             let heroImage = heroImageView.image else { return }
         let heroData = HeroData(id: heroId, name: heroName, image: heroImage)
-//        updateFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false
         hero?.isFavorite = delegate?.markAsFavorite(heroData: heroData) ?? false
+        updateFavoriteButtonForFavorites()
+    }
+    
+    private func updateFavoriteButtonForFavorites() {
         favoriteButton.setTitle(hero?.isFavorite ?? false ? "Favorito!" : "Favoritar", for: .normal)
         favoriteButton.setTitleColor(hero?.isFavorite ?? false ? .yellow : .white, for: .normal)
     }

@@ -36,10 +36,8 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         }
         presenter?.toggleLoading(true)
         worker = worker ?? HeroesWorker()
-        worker?.fetchHeroes(name: request.heroName, page: page, completion: { result in
-            //            guard let self = self else {
-            //                print("weak self")
-            //                return }
+        worker?.fetchHeroes(name: request.heroName, page: page, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let heroes):
                 self.page += 1
