@@ -12,26 +12,18 @@ import XCTest
 final class HeroesViewControllerTests: XCTestCase {
     
     var sut: HeroesViewController!
-    var window: UIWindow!
     var interactorSpy: HeroesInteractorSpy!
     
     // MARK: Test lifecycle
     
     override func setUp() {
         super.setUp()
-        window = UIWindow()
         sut = HeroesViewController()
     }
     
     override func tearDown() {
-        window = nil
         sut = nil
         super.tearDown()
-    }
-    
-    func loadView() {
-        window.addSubview(sut.view)
-        RunLoop.current.run(until: Date())
     }
     
     func testLoadHeroesCalledInViewDidLoad() {
@@ -81,18 +73,6 @@ final class HeroesViewControllerTests: XCTestCase {
         //Assert
         XCTAssertTrue(interactorSpy.deleteHeroDataCalled, "deleteHeroData() should be called in deleteHeroData() from HeroesViewController")
     }
-    
-//    func testDisplaySomething() {
-//        // Given
-//        let viewModel = Heroes.Something.ViewModel()
-//
-//        // When
-//        loadView()
-//        sut.displaySomething(viewModel: viewModel)
-//
-//        // Then
-//        //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
-//    }
 }
 
 //MARK: - Spies
