@@ -18,10 +18,10 @@ protocol HeroesDisplayLogic: class {
 final class HeroesViewController: UIViewController {
     
     var interactor: HeroesBusinessLogic?
-    var router: (NSObjectProtocol & HeroesRoutingLogic & HeroesDataPassing)?
-    var errorView: ErrorView?
-    lazy var viewScreen = HeroesViewScreen(delegate: self)
-    lazy var searchBar: UISearchBar = {
+    var router: HeroesRoutingLogic?
+    private var errorView: ErrorView?
+    private lazy var viewScreen = HeroesViewScreen(delegate: self)
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.sizeToFit()
         searchBar.delegate = self
@@ -33,36 +33,20 @@ final class HeroesViewController: UIViewController {
     
     // MARK: - Setup
     
-    private func setup() {
-        let interactor = HeroesInteractor()
-        let presenter = HeroesPresenter()
-        let router = HeroesRouter()
+    func setup(interactor: HeroesBusinessLogic, router: HeroesRoutingLogic) {
         self.interactor = interactor
         self.router = router
-        presenter.viewController = self
-        interactor.presenter = presenter
-        router.viewController = self
-        router.dataStore = interactor
-    }
-    
-    // MARK: - Object lifecycle
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
     }
     
     // MARK: - View lifecycle
     
+    override func loadView() {
+        view = viewScreen
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupNavigation()
         loadHeroes()
     }
     
@@ -75,29 +59,13 @@ final class HeroesViewController: UIViewController {
     // MARK: - Setup View
     
     private func setupView() {
-        title = "Heróis Marvel"
-        view.backgroundColor = .white
-        setupViewScreen()
-    }
-    
-    private func setupNavigation() {
         let navBar = navigationController?.navigationBar
         navBar?.prefersLargeTitles = true
         navBar?.tintColor = .white
         navBar?.barStyle = .black
         navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        title = NSLocalizedString("heroes_title", comment: String())
         showSearchBarButton(true)
-    }
-    
-    private func setupViewScreen() {
-        viewScreen.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(viewScreen)
-        NSLayoutConstraint.activate([
-            viewScreen.topAnchor.constraint(equalTo: view.topAnchor),
-            viewScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
     
     private func showErrorView() {
@@ -114,7 +82,7 @@ final class HeroesViewController: UIViewController {
     
     // MARK: - Load Heroes
     
-    private func loadHeroes(heroName: String = "") {
+    private func loadHeroes(heroName: String = String()) {
         let request = Heroes.List.Request(heroName: heroName)
         interactor?.loadHeroes(request: request)
     }
@@ -144,8 +112,8 @@ final class HeroesViewController: UIViewController {
     }
     
     private func showAlertMessage(message: String) {
-        let alert = UIAlertController(title: "Ops!", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alert = UIAlertController(title: NSLocalizedString("alert_error_title", comment: String()), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert_error_default_action", comment: String()), style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 }
@@ -166,11 +134,7 @@ extension HeroesViewController: HeroesDisplayLogic {
     }
     
     func toggleLoading(_ bool: Bool) {
-        if bool {
-            viewScreen.startLoading()
-            return
-        }
-        viewScreen.stopLoading()
+        bool ? viewScreen.startLoading() : viewScreen.stopLoading()
     }
 }
 
@@ -182,11 +146,11 @@ extension HeroesViewController: ViewScreenDelegating {
     }
     
     func notifyTableViewEnds() {
-        loadHeroes(heroName: searchBar.text ?? "")
+        loadHeroes(heroName: searchBar.text ?? String())
     }
     
     func refreshItems() {
-        searchHeroes(heroName: searchBar.text ?? "")
+        searchHeroes(heroName: searchBar.text ?? String())
     }
     
     func markAsFavorite(heroData: HeroData) -> Bool {
@@ -202,11 +166,11 @@ extension HeroesViewController: ViewScreenDelegating {
 extension HeroesViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(shouldShow: false)
-        searchHeroes(heroName: "")
+        searchHeroes(heroName: String())
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchHeroes(heroName: searchBar.text ?? "")
+        searchHeroes(heroName: searchBar.text ?? String())
         searchBar.resignFirstResponder()
     }
 }

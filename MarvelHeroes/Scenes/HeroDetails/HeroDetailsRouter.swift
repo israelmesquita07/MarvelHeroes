@@ -12,7 +12,12 @@ protocol HeroDetailsDataPassing {
     var dataStore: HeroDetailsDataStore? { get }
 }
 
-final class HeroDetailsRouter: NSObject, HeroDetailsDataPassing {
+final class HeroDetailsRouter: HeroDetailsDataPassing {
     weak var viewController: HeroDetailsViewController?
     var dataStore: HeroDetailsDataStore?
+    
+    init(viewController: HeroDetailsViewController, dataStore: HeroDetailsDataStore) {
+        self.viewController = viewController
+        self.dataStore = dataStore
+    }
 }

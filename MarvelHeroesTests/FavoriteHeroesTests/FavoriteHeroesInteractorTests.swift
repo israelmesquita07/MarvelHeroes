@@ -16,7 +16,8 @@ final class FavoriteHeroesInteractorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = FavoriteHeroesInteractor()
+        presenterSpy = FavoriteHeroesPresenterSpy()
+        sut = FavoriteHeroesInteractor(presenter: presenterSpy)
     }
     
     override func tearDown() {
@@ -26,19 +27,10 @@ final class FavoriteHeroesInteractorTests: XCTestCase {
     
     func testPresentFavoriteHeroesCalledInLoadFavoriteHeroes() {
         //Arranje
-        setupSpies()
         let request = FavoriteHeroes.List.Request()
         //ACT
         sut.loadFavoriteHeroes(request: request)
         //Assert
         XCTAssertTrue(presenterSpy.presentFavoriteHeroesCalled || presenterSpy.presentErrorCalled, "presentFavoriteHeroes() or presentError() should be called in loadFavoriteHeroes() from FavoriteHeroesInteractor - It depends of heroes.count")
-    }
-}
-
-//MARK: - Spies
-extension FavoriteHeroesInteractorTests {
-    func setupSpies() {
-        presenterSpy = FavoriteHeroesPresenterSpy()
-        sut.presenter = presenterSpy
     }
 }

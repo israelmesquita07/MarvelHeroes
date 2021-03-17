@@ -16,38 +16,23 @@ protocol HeroDetailsDisplayLogic: class {
 
 final class HeroDetailsViewController: UIViewController {
     
+    var router: HeroDetailsDataPassing?
     var interactor: HeroDetailsBusinessLogic?
-    var router: (NSObjectProtocol & HeroDetailsDataPassing)?
-    var errorView: ErrorView?
-    lazy var viewScreen = HeroDetailsViewScreen(delegate: self)
-    
-    // MARK: - Object lifecycle
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
+    private var errorView: ErrorView?
+    private lazy var viewScreen = HeroDetailsViewScreen(delegate: self)
     
     // MARK: - Setup
     
-    private func setup() {
-        let interactor = HeroDetailsInteractor()
-        let presenter = HeroDetailsPresenter()
-        let router = HeroDetailsRouter()
+    func setup(interactor: HeroDetailsBusinessLogic, router: HeroDetailsDataPassing) {
         self.interactor = interactor
         self.router = router
-        interactor.presenter = presenter
-        presenter.viewController = self
-        router.viewController = self
-        router.dataStore = interactor
     }
     
     // MARK: - View lifecycle
+    
+    override func loadView() {
+        view = viewScreen
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,20 +48,8 @@ final class HeroDetailsViewController: UIViewController {
     // MARK: - Setup View
     
     private func setupView() {
-        title = "Herói Marvel"
+        title = NSLocalizedString("details_title", comment: String())
         navigationController?.navigationBar.prefersLargeTitles = false
-        setupViewScreen()
-    }
-    
-    private func setupViewScreen() {
-        viewScreen.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(viewScreen)
-        NSLayoutConstraint.activate([
-            viewScreen.topAnchor.constraint(equalTo: view.topAnchor),
-            viewScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
     
     // MARK: - Load Hero Image
@@ -87,8 +60,8 @@ final class HeroDetailsViewController: UIViewController {
     }
     
     private func showAlertMessage(message: String) {
-        let alert = UIAlertController(title: "Ops!", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alert = UIAlertController(title: NSLocalizedString("alert_error_title", comment: String()), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert_error_default_action", comment: String()), style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     

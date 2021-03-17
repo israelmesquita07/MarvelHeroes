@@ -16,7 +16,11 @@ protocol HeroDetailsPresentationLogic {
 
 final class HeroDetailsPresenter: HeroDetailsPresentationLogic {
     
-    weak var viewController: HeroDetailsDisplayLogic?
+    private weak var viewController: HeroDetailsDisplayLogic?
+    
+    init(viewController: HeroDetailsDisplayLogic) {
+        self.viewController = viewController
+    }
     
     // MARK: - Present Hero Details
     

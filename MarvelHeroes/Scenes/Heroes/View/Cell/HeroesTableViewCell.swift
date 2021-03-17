@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol HeroesTableViewDelegating: AnyObject {
+protocol HeroesTableViewDelegate: AnyObject {
     func markAsFavorite(heroData: HeroData) -> Bool
     func deleteHeroData(heroId: Int) -> Bool
 }
@@ -17,8 +17,8 @@ protocol HeroesTableViewDelegating: AnyObject {
 final class HeroesTableViewCell: UITableViewCell {
     
     private var task: URLSessionTask?
-    weak var delegate: HeroesTableViewDelegating?
-    var hero: Hero?
+    weak var delegate: HeroesTableViewDelegate?
+    private var hero: Hero?
     
     // MARK: - View Code
     

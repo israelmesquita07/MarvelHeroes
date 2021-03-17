@@ -16,7 +16,8 @@ final class HeroesPresenterTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = HeroesPresenter()
+        viewControllerSpy = HeroesViewControllerSpy()
+        sut = HeroesPresenter(viewController: viewControllerSpy)
     }
     
     override func tearDown() {
@@ -26,7 +27,6 @@ final class HeroesPresenterTests: XCTestCase {
     
     func testDisplayHeroesCalledInPresentHeroes() {
         //Arranje
-        setupSpies()
         let thumbnail = Thumbnail(path: "path", ext: "extension")
         let hero = Hero(id: -1, name: "", description: "", thumbnail: thumbnail)
         let response = Heroes.List.Response(heroes: [hero])
@@ -38,7 +38,6 @@ final class HeroesPresenterTests: XCTestCase {
     
     func testDisplayErrorCalledInPresentError() {
         //Arranje
-        setupSpies()
         //ACT
         sut.presentError(errorDescription: "some error")
         //Assert
@@ -47,7 +46,6 @@ final class HeroesPresenterTests: XCTestCase {
     
     func testDisplayAlertErrorCalledInPresentAlertError() {
         //Arranje
-        setupSpies()
         //ACT
         sut.presentAlertError(errorDescription: "some error")
         //Assert
@@ -56,18 +54,9 @@ final class HeroesPresenterTests: XCTestCase {
     
     func testToggleLoadingCalledInToggleLoading() {
         //Arranje
-        setupSpies()
         //ACT
         sut.toggleLoading(false)
         //Assert
         XCTAssertTrue(viewControllerSpy.toggleLoadingCalled, "toggleLoading() should be called in toggleLoading() from HeroesPresenter")
-    }
-}
-
-//MARK: - Spies
-extension HeroesPresenterTests {
-    func setupSpies() {
-        viewControllerSpy = HeroesViewControllerSpy()
-        sut.viewController = viewControllerSpy
     }
 }

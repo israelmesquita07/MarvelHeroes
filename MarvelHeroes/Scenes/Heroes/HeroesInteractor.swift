@@ -22,11 +22,16 @@ protocol HeroesDataStore {
 
 final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
     
-    var presenter: HeroesPresentationLogic?
-    var worker: ListHeroesServicing?
+    let presenter: HeroesPresentationLogic
+    let worker: ListHeroesServicing
     var hero: Hero?
     var page = 0, totalHeros = 1
     var results: [Hero] = []
+    
+    init(presenter: HeroesPresentationLogic, worker: ListHeroesServicing) {
+        self.presenter = presenter
+        self.worker = worker
+    }
     
     // MARK: - Load Heroes
     
@@ -34,9 +39,8 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         if results.count >= totalHeros {
             return
         }
-        presenter?.toggleLoading(true)
-        worker = worker ?? HeroesWorker()
-        worker?.fetchHeroes(name: request.heroName, page: page, completion: { [weak self] result in
+        presenter.toggleLoading(true)
+        worker.fetchHeroes(name: request.heroName, page: page, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let heroes):
@@ -46,15 +50,15 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
                 self.fetchFavorites()
                 if self.results.count > 0 {
                     let response = Heroes.List.Response(heroes: self.results)
-                    self.presenter?.presentHeroes(response: response)
-                    self.presenter?.toggleLoading(false)
+                    self.presenter.presentHeroes(response: response)
+                    self.presenter.toggleLoading(false)
                     return
                 }
-                self.presenter?.presentError(errorDescription: "Infelizmente estamos sem heróis")
-                self.presenter?.toggleLoading(false)
+                self.presenter.presentError(errorDescription: NSLocalizedString("error_empty_heroes", comment: String()))
+                self.presenter.toggleLoading(false)
             case .failure(let error):
-                self.presenter?.presentError(errorDescription: error.localizedDescription)
-                self.presenter?.toggleLoading(false)
+                self.presenter.presentError(errorDescription: error.localizedDescription)
+                self.presenter.toggleLoading(false)
             }
         })
     }
@@ -80,7 +84,7 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         if DatabaseHelper.shareInstance.saveHeroData(data: heroData) {
             return true
         } else {
-            presenter?.presentAlertError(errorDescription: "Não foi possível favoritar \(heroData.name)")
+            presenter.presentAlertError(errorDescription: "\(NSLocalizedString("error_impossible_favorite", comment: String())) \(heroData.name)")
             return false
         }
     }
@@ -89,7 +93,7 @@ final class HeroesInteractor: HeroesBusinessLogic, HeroesDataStore {
         if DatabaseHelper.shareInstance.deleteHeroData(heroId: heroId) {
             return false
         } else {
-            presenter?.presentAlertError(errorDescription: "Não foi possível desfavoritar")
+            presenter.presentAlertError(errorDescription: NSLocalizedString("error_impossible_unfavorite", comment: String()))
             return true
         }
     }

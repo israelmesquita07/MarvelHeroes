@@ -19,6 +19,10 @@ final class HeroesPresenter: HeroesPresentationLogic {
     
     weak var viewController: HeroesDisplayLogic?
     
+    init(viewController: HeroesDisplayLogic?) {
+        self.viewController = viewController
+    }
+    
     // MARK: - Present Heroes
     
     func presentHeroes(response: Heroes.List.Response) {

@@ -14,25 +14,23 @@ protocol ErrorViewHeroesReloading: AnyObject {
 
 final class ErrorView: UIView {
     
-    weak var delegate: ErrorViewHeroesReloading?
-    
     // MARK: - View Code
     
-    lazy var errorLabel: UILabel = {
+    private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = .white
         label.textAlignment =  .center
-        label.font =  .systemFont(ofSize: 20.0, weight: .semibold)
+        label.font = .systemFont(ofSize: 20.0, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    lazy var tryAgainButton: UIButton = {
+    private lazy var tryAgainButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(tryAgain), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        let attributedString = NSAttributedString(string: NSLocalizedString("Tentar novamente", comment: ""), attributes:[
+        let attributedString = NSAttributedString(string: NSLocalizedString("try_again", comment: String()), attributes:[
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0),
             NSAttributedString.Key.foregroundColor: UIColor.white,
             NSAttributedString.Key.underlineStyle: 1.0
@@ -43,12 +41,13 @@ final class ErrorView: UIView {
         
     // MARK: - Init
     
+    private weak var delegate: ErrorViewHeroesReloading?
+    
     init(delegate: ErrorViewHeroesReloading, errorText: String) {
         self.delegate = delegate
         super.init(frame: .zero)
-        errorLabel.text = "Ops!\n\(errorText)"
-        setupView()
-        setupConstraints()
+        errorLabel.text = "\(NSLocalizedString("alert_error_title", comment: String()))\n\(errorText)"
+        setupLayout()
     }
     
     @available(*, unavailable)
@@ -56,15 +55,19 @@ final class ErrorView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup View
-    
-    private func setupView() {
-        self.backgroundColor = .black
+    @objc private func tryAgain() {
+        delegate?.tryAgain()
+    }
+}
+
+// MARK: - ViewSetupLayoutProtocol
+extension ErrorView: ViewSetupLayoutProtocol {
+    func setupHierarchy() {
         addSubview(errorLabel)
         addSubview(tryAgainButton)
     }
     
-    private func setupConstraints() {
+    func setupContraints() {
         NSLayoutConstraint.activate([
             errorLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16.0),
@@ -76,7 +79,7 @@ final class ErrorView: UIView {
         ])
     }
     
-    @objc private func tryAgain() {
-        delegate?.tryAgain()
+    func setupAdditionalStuff() {
+        backgroundColor = .black
     }
 }

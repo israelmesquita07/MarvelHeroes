@@ -20,26 +20,30 @@ protocol HeroDetailsDataStore {
 
 final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStore {
     
-    var presenter: HeroDetailsPresentationLogic?
+    let presenter: HeroDetailsPresentationLogic
+    let worker: FetchHeroImageServicing
     var hero: Hero?
-    var worker: FetchHeroImageServicing?
+    
+    init(presenter: HeroDetailsPresentationLogic, worker: FetchHeroImageServicing) {
+        self.presenter = presenter
+        self.worker = worker
+    }
     
     // MARK: - Load Hero Image
     
     func loadHeroImage(request: HeroDetails.Details.Request) {
-        worker = worker ?? HeroDetailsWorker()
         guard let url = hero?.thumbnail.url, let hero = hero else {
-            self.presenter?.presentError(errorDescription: "Ocorreu um erro")
+            self.presenter.presentError(errorDescription: NSLocalizedString("error_generic", comment: String()))
             return
         }
-        worker?.fetchHeroImage(url: url) { [weak self] result in
+        worker.fetchHeroImage(url: url) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let image):
                 let response = HeroDetails.Details.Response(imageHero: image, hero: hero)
-                self.presenter?.presentHeroImage(response: response)
+                self.presenter.presentHeroImage(response: response)
             case .failure(let error):
-                self.presenter?.presentError(errorDescription: error.localizedDescription)
+                self.presenter.presentError(errorDescription: error.localizedDescription)
             }
         }
     }
@@ -50,7 +54,7 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
         if DatabaseHelper.shareInstance.saveHeroData(data: heroData) {
             return true
         } else {
-            presenter?.presentAlertError(errorDescription: "Não foi possível favoritar \(heroData.name)")
+            presenter.presentAlertError(errorDescription: "\(NSLocalizedString("error_impossible_favorite", comment: String())) \(heroData.name)")
             return false
         }
     }
@@ -59,7 +63,7 @@ final class HeroDetailsInteractor: HeroDetailsBusinessLogic, HeroDetailsDataStor
         if DatabaseHelper.shareInstance.deleteHeroData(heroId: heroId) {
             return false
         } else {
-            presenter?.presentAlertError(errorDescription: "Não foi possível desfavoritar")
+            presenter.presentAlertError(errorDescription: NSLocalizedString("error_impossible_unfavorite", comment: String()))
             return true
         }
     }

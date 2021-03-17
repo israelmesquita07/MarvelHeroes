@@ -17,7 +17,9 @@ final class HeroDetailsInteractorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = HeroDetailsInteractor()
+        workerSpy = HeroDetailsWorkerSpy()
+        presenterSpy = HeroDetailsPresenterSpy()
+        sut = HeroDetailsInteractor(presenter: presenterSpy, worker: workerSpy)
     }
     
     override func tearDown() {
@@ -27,7 +29,6 @@ final class HeroDetailsInteractorTests: XCTestCase {
     
     func testPresentAlertErrorCalledInDeleteHeroData() {
         //Arranje
-        setupSpies()
         //ACT
         _ = sut.deleteHeroData(heroId: -1)
         //Assert
@@ -36,7 +37,6 @@ final class HeroDetailsInteractorTests: XCTestCase {
     
     func testPresentErrorCalledInLoadHeroImage() {
         //Arranje
-        setupSpies()
         //ACT
         sut.loadHeroImage(request: HeroDetails.Details.Request())
         //Assert
@@ -45,7 +45,6 @@ final class HeroDetailsInteractorTests: XCTestCase {
     
     func testFetchHeroImageCalledInLoadHeroImage() {
         //Arranje
-        setupSpies()
         let thumbnail = Thumbnail(path: "path", ext: "extension")
         let hero = Hero(id: -1, name: "", description: "", thumbnail: thumbnail)
         sut.hero = hero
@@ -53,15 +52,5 @@ final class HeroDetailsInteractorTests: XCTestCase {
         sut.loadHeroImage(request: HeroDetails.Details.Request())
         //Assert
         XCTAssertTrue(workerSpy.fetchHeroImageCalled, "fetchHeroImage() should be called in loadHeroImage() from HeroDetailsInteractor")
-    }
-}
-
-//MARK: - Spies
-extension HeroDetailsInteractorTests {
-    func setupSpies() {
-        workerSpy = HeroDetailsWorkerSpy()
-        sut.worker = workerSpy
-        presenterSpy = HeroDetailsPresenterSpy()
-        sut.presenter = presenterSpy
     }
 }

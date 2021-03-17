@@ -36,7 +36,7 @@ final class FavoriteHeroesTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupView()
+        setupLayout()
     }
     
     @available(*, unavailable)
@@ -44,14 +44,25 @@ final class FavoriteHeroesTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() {
-        contentView.backgroundColor = .black
-        contentView.addSubview(heroImageView)
-        contentView.addSubview(heroLabel)
-        setupConstraints()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        heroImageView.image = nil
     }
     
-    private func setupConstraints() {
+    func setupCell(heroName: String, heroImage: UIImage) {
+        heroLabel.text = heroName
+        heroImageView.image = heroImage
+    }
+}
+
+// MARK: - ViewSetupLayoutProtocol
+extension FavoriteHeroesTableViewCell: ViewSetupLayoutProtocol {
+    func setupHierarchy() {
+        contentView.addSubview(heroImageView)
+        contentView.addSubview(heroLabel)
+    }
+    
+    func setupContraints() {
         NSLayoutConstraint.activate([
             heroImageView.heightAnchor.constraint(equalToConstant: 100.0),
             heroImageView.widthAnchor.constraint(equalToConstant: 100.0),
@@ -65,13 +76,7 @@ final class FavoriteHeroesTableViewCell: UITableViewCell {
         ])
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        heroImageView.image = nil
-    }
-    
-    func setupCell(heroName: String, heroImage: UIImage) {
-        heroLabel.text = heroName
-        heroImageView.image = heroImage
+    func setupAdditionalStuff() {
+        contentView.backgroundColor = .black
     }
 }

@@ -16,26 +16,24 @@ protocol FavoriteHeroesDisplayLogic: class {
 final class FavoriteHeroesViewController: UIViewController {
     
     var interactor: FavoriteHeroesBusinessLogic?
-    lazy var viewScreen = FavoriteHeroesViewScreen()
-    var errorView: ErrorView?
+    private lazy var viewScreen = FavoriteHeroesViewScreen()
+    private var errorView: ErrorView?
     
     // MARK: - Setup
     
-    private func setup() {
-        let interactor = FavoriteHeroesInteractor()
-        let presenter = FavoriteHeroesPresenter()
+    func setup(interactor: FavoriteHeroesBusinessLogic) {
         self.interactor = interactor
-        interactor.presenter = presenter
-        presenter.viewController = self
     }
     
     // MARK: - View lifecycle
     
+    override func loadView() {
+        view = viewScreen
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
         setupView()
-        setupNavigation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,28 +45,12 @@ final class FavoriteHeroesViewController: UIViewController {
     // MARK: - Setup View
     
     private func setupView() {
-        title = "Heróis Favoritos"
-        view.backgroundColor = .white
-        setupViewScreen()
-    }
-    
-    private func setupNavigation() {
+        title = NSLocalizedString("favorites_title", comment: String())
         let navBar = navigationController?.navigationBar
         navBar?.prefersLargeTitles = true
         navBar?.tintColor = .white
         navBar?.barStyle = .black
         navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-    }
-    
-    private func setupViewScreen() {
-        viewScreen.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(viewScreen)
-        NSLayoutConstraint.activate([
-            viewScreen.topAnchor.constraint(equalTo: view.topAnchor),
-            viewScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
     
     // MARK: - Load Favorite Heroes

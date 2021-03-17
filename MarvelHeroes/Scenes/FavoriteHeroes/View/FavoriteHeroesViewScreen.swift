@@ -18,7 +18,7 @@ final class FavoriteHeroesViewScreen: UIView {
     
     // MARK: - View Code
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.dataSource = self
@@ -33,27 +33,33 @@ final class FavoriteHeroesViewScreen: UIView {
     
     init() {
         super.init(frame: .zero)
-        setupView()
+        setupLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupView() {
+}
+
+// MARK: - ViewSetupLayoutProtocol
+extension FavoriteHeroesViewScreen: ViewSetupLayoutProtocol {
+    func setupHierarchy() {
         addSubview(tableView)
-        setupConstraints()
     }
     
-    private func setupConstraints() {
-         NSLayoutConstraint.activate([
-             tableView.topAnchor.constraint(equalTo: self.topAnchor),
-             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-             tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-         ])
-     }
+    func setupContraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+    }
+    
+    func setupAdditionalStuff() {
+        backgroundColor = .black
+    }
 }
 
 //MARK: - UITableViewDataSource

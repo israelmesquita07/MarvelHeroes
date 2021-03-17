@@ -16,9 +16,9 @@ enum HeroesError: Error {
     var localizedDescription: String {
         switch self {
         case .internetFailure:
-            return "Sua internet está instável"
+            return NSLocalizedString("error_internet_failure", comment: String())
         default:
-            return "Ocorreu um erro!"
+            return "\(NSLocalizedString("error_generic", comment: String()))!"
         }
     }
 }

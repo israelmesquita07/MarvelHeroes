@@ -16,7 +16,8 @@ class HeroDetailsPresenterTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = HeroDetailsPresenter()
+        viewControllerSpy = HeroDetailsViewControllerSpy()
+        sut = HeroDetailsPresenter(viewController: viewControllerSpy)
     }
     
     override func tearDown() {
@@ -26,7 +27,6 @@ class HeroDetailsPresenterTests: XCTestCase {
     
     func testDisplayHeroImageCalledInPresentHeroDetails() {
         //Arranje
-        setupSpies()
         let thumbnail = Thumbnail(path: "path", ext: "extension")
         let hero = Hero(id: -1, name: "", description: "", thumbnail: thumbnail)
         let response = HeroDetails.Details.Response(imageHero: UIImage(), hero: hero)
@@ -38,7 +38,6 @@ class HeroDetailsPresenterTests: XCTestCase {
     
     func testDisplayErrorCalledInPresentError() {
         //Arranje
-        setupSpies()
         //ACT
         sut.presentError(errorDescription: "some error")
         //Assert
@@ -47,18 +46,9 @@ class HeroDetailsPresenterTests: XCTestCase {
     
     func testDisplayAlertErrorCalledInPresentAlertError() {
         //Arranje
-        setupSpies()
         //ACT
         sut.presentAlertError(errorDescription: "some error")
         //Assert
         XCTAssertTrue(viewControllerSpy.displayAlertErrorCalled, "displayAlertError() should be called in presentAlertError() from HeroDetailsPresenter")
-    }
-}
-
-//MARK: - Spies
-extension HeroDetailsPresenterTests {
-    func setupSpies() {
-        viewControllerSpy = HeroDetailsViewControllerSpy()
-        sut.viewController = viewControllerSpy
     }
 }

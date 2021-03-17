@@ -14,7 +14,11 @@ protocol FavoriteHeroesBusinessLogic {
 
 final class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
     
-    var presenter: FavoriteHeroesPresentationLogic?
+    let presenter: FavoriteHeroesPresentationLogic
+    
+    init(presenter: FavoriteHeroesPresentationLogic) {
+        self.presenter = presenter
+    }
     
     // MARK: Load Favorite Heroes
     
@@ -22,10 +26,10 @@ final class FavoriteHeroesInteractor: FavoriteHeroesBusinessLogic {
         let heroes = fetchFavorites()
         if heroes.count > 0 {
             let response = FavoriteHeroes.List.Response(heroes: heroes)
-            presenter?.presentFavoriteHeroes(response: response)
+            presenter.presentFavoriteHeroes(response: response)
             return
         }
-        presenter?.presentError(errorDescription: "Não encontramos nenhum dos seus favoritos")
+        presenter.presentError(errorDescription: NSLocalizedString("error_not_found_favorite", comment: String()))
     }
     
     private func fetchFavorites() -> [HeroData] {

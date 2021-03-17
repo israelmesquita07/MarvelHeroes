@@ -20,7 +20,9 @@ final class HeroesInteractorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = HeroesInteractor()
+        workerSpy = HeroesWorkerSpy()
+        presenterSpy = HeroesPresenterSpy()
+        sut = HeroesInteractor(presenter: presenterSpy, worker: workerSpy)
     }
     
     override func tearDown() {
@@ -30,7 +32,6 @@ final class HeroesInteractorTests: XCTestCase {
 
     func testPresentAlertErrorCalledInDeleteHeroData() {
         //Arranje
-        setupSpies()
         //ACT
         _ = sut.deleteHeroData(heroId: -1)
         //Assert
@@ -39,7 +40,6 @@ final class HeroesInteractorTests: XCTestCase {
     
     func testPresentAlertErrorCalledInMarkAsFavorite() {
         //Arranje
-        setupSpies()
         let heroData = HeroData(id: -1, name: "", image: UIImage())
         //ACT
         _ = sut.markAsFavorite(heroData: heroData)
@@ -49,7 +49,6 @@ final class HeroesInteractorTests: XCTestCase {
     
     func testToggleLoadingCalledInLoadHeroes() {
         //Arranje
-        setupSpies()
         let request = Heroes.List.Request(heroName: "spider")
         //ACT
         sut.loadHeroes(request: request)
@@ -59,7 +58,6 @@ final class HeroesInteractorTests: XCTestCase {
     
     func testFetchHeroesCalledInLoadHeroes() {
         //Arranje
-        setupSpies()
         let request = Heroes.List.Request(heroName: "spider")
         //ACT
         sut.loadHeroes(request: request)
@@ -75,15 +73,5 @@ final class HeroesInteractorTests: XCTestCase {
         sut.fillDataToDetails(hero: hero)
         //Assert
         XCTAssertNotNil(sut.hero, "sut.hero should be not nil when fillDataToDetails() is called")
-    }
-}
-
-//MARK: - Spies
-extension HeroesInteractorTests {
-    func setupSpies() {
-        workerSpy = HeroesWorkerSpy()
-        sut.worker = workerSpy
-        presenterSpy = HeroesPresenterSpy()
-        sut.presenter = presenterSpy
     }
 }

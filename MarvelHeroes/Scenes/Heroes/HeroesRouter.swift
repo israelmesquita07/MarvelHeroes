@@ -13,20 +13,25 @@ import UIKit
 }
 
 protocol HeroesDataPassing {
-    var dataStore: HeroesDataStore? { get }
+    var dataStore: HeroesDataStore { get }
 }
 
-final class HeroesRouter: NSObject, HeroesRoutingLogic, HeroesDataPassing {
+final class HeroesRouter: HeroesRoutingLogic, HeroesDataPassing {
     
     weak var viewController: HeroesViewController?
-    var dataStore: HeroesDataStore?
+    var dataStore: HeroesDataStore
+    
+    init(viewController: HeroesViewController?, dataStore: HeroesDataStore) {
+        self.viewController = viewController
+        self.dataStore = dataStore
+    }
 
     // MARK: - Routing
     
     func routeToDetails() {
-        let destinationVC = HeroDetailsViewController()
+        let destinationVC = HeroDetailsFactory.makeHeroDetailsViewController()
         var destinationDS = destinationVC.router!.dataStore!
-        passDataToDetails(source: dataStore!, destination: &destinationDS)
+        passDataToDetails(source: dataStore, destination: &destinationDS)
         navigateToDetails(source: viewController!, destination: destinationVC)
     }
 

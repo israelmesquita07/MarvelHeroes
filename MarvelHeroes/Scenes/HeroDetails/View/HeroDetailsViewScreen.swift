@@ -20,25 +20,26 @@ final class HeroDetailsViewScreen: UIView {
     
     // MARK: - View Code
     
-    lazy var heroImageView: UIImageView = {
+    private lazy var heroImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    lazy var heroLabel: UILabel = {
+    private lazy var heroLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.textAlignment = .justified
         label.textColor = .white
         label.font = .systemFont(ofSize: 18.0, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    lazy var favoriteButton: UIButton = {
+    private lazy var favoriteButton: UIButton = {
        let button = UIButton()
-        button.setTitle("Favoritar", for: .normal)
+        button.setTitle(NSLocalizedString("favorite_button_title", comment: String()), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .medium)
         button.backgroundColor = .black
@@ -52,7 +53,7 @@ final class HeroDetailsViewScreen: UIView {
     init(delegate: HeroDetailsViewScreenDelegating) {
         self.delegate = delegate
         super.init(frame: .zero)
-        setupView()
+        setupLayout()
     }
     
     @available(*, unavailable)
@@ -62,37 +63,11 @@ final class HeroDetailsViewScreen: UIView {
     
     // MARK: - Setup View
     
-    private func setupView() {
-        addSubview(heroImageView)
-        addSubview(heroLabel)
-        addSubview(favoriteButton)
-        setupConstraints()
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            heroImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            heroImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            heroImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            heroImageView.heightAnchor.constraint(equalToConstant: 400.0),
-            
-            heroLabel.topAnchor.constraint(equalTo: heroImageView.bottomAnchor, constant: 24.0),
-            heroLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16.0),
-            heroLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
-            heroLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteButton.topAnchor),
-            
-            favoriteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            favoriteButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 100.0)
-        ])
-    }
-    
     func setupViewScreen(_ imageHero: UIImage,_ hero: Hero) {
         self.hero = hero
         heroImageView.image = imageHero
         heroLabel.text = hero.description
-        favoriteButton.setTitle(hero.isFavorite ?? false ? "Favorito!" : "Favoritar", for: .normal)
+        favoriteButton.setTitle(hero.isFavorite ?? false ? NSLocalizedString("favorited_button_title", comment: String()) : NSLocalizedString("favorite_button_title", comment: String()), for: .normal)
         favoriteButton.setTitleColor(hero.isFavorite ?? false ? .yellow : .white, for: .normal)
     }
     
@@ -111,7 +86,39 @@ final class HeroDetailsViewScreen: UIView {
     }
     
     private func updateFavoriteButtonForFavorites() {
-        favoriteButton.setTitle(hero?.isFavorite ?? false ? "Favorito!" : "Favoritar", for: .normal)
+        favoriteButton.setTitle(hero?.isFavorite ?? false ? NSLocalizedString("favorited_button_title", comment: String()) : NSLocalizedString("favorite_button_title", comment: String()), for: .normal)
         favoriteButton.setTitleColor(hero?.isFavorite ?? false ? .yellow : .white, for: .normal)
+    }
+}
+
+// MARK: - ViewSetupLayoutProtocol
+extension HeroDetailsViewScreen: ViewSetupLayoutProtocol {
+    func setupHierarchy() {
+        addSubview(heroImageView)
+        addSubview(heroLabel)
+        addSubview(favoriteButton)
+    }
+    
+    func setupContraints() {
+        NSLayoutConstraint.activate([
+            heroImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            heroImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            heroImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            heroImageView.heightAnchor.constraint(equalToConstant: 380.0),
+            
+            heroLabel.topAnchor.constraint(equalTo: heroImageView.bottomAnchor, constant: 10.0),
+            heroLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10.0),
+            heroLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0),
+            heroLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteButton.topAnchor),
+            
+            favoriteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            favoriteButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 70.0)
+        ])
+    }
+    
+    func setupAdditionalStuff() {
+        backgroundColor = .black
     }
 }

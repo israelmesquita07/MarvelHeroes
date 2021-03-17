@@ -16,7 +16,8 @@ final class FavoriteHeroesPresenterTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = FavoriteHeroesPresenter()
+        viewControllerSpy = FavoriteHeroesViewControllerSpy()
+        sut = FavoriteHeroesPresenter(viewController: viewControllerSpy)
     }
     
     override func tearDown() {
@@ -26,7 +27,6 @@ final class FavoriteHeroesPresenterTests: XCTestCase {
     
     func testDisplayFavoriteHeroesCalledInPresentFavoriteHeroes() {
         //Arranje
-        setupSpies()
         let heroData = HeroData(id: -1, name: "", image: UIImage())
         let response = FavoriteHeroes.List.Response(heroes: [heroData])
         //ACT
@@ -37,18 +37,9 @@ final class FavoriteHeroesPresenterTests: XCTestCase {
     
     func testDisplayErrorCalledInPresentError() {
         //Arranje
-        setupSpies()
         //ACT
         sut.presentError(errorDescription: "some error")
         //Assert
         XCTAssertTrue(viewControllerSpy.displayErrorCalled, "displayError() should be called in presentError() from FavoriteHeroesPresenter")
-    }
-}
-
-//MARK: - Spies
-extension FavoriteHeroesPresenterTests {
-    func setupSpies() {
-        viewControllerSpy = FavoriteHeroesViewControllerSpy()
-        sut.viewController = viewControllerSpy
     }
 }

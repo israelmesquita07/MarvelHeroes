@@ -29,7 +29,7 @@ final class HeroesViewScreen: UIView {
 
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Atualizando heróis...")
+        refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("updating_heroes", comment: String()))
         refreshControl.addTarget(self, action: #selector(refreshItems(_:)), for: .valueChanged)
         return refreshControl
     }()
@@ -62,30 +62,12 @@ final class HeroesViewScreen: UIView {
     init(delegate: ViewScreenDelegating) {
         self.delegate = delegate
         super.init(frame: .zero)
-        setupView()
+        setupLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupView() {
-        addSubview(tableView)
-        addSubview(activityIndicator)
-        setupConstraints()
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
-            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        ])
     }
     
     // MARK: - Animation Loading
@@ -110,6 +92,31 @@ final class HeroesViewScreen: UIView {
         delegate?.refreshItems()
     }
 }
+
+// MARK: - ViewSetupLayoutProtocol
+extension HeroesViewScreen: ViewSetupLayoutProtocol {
+    func setupHierarchy() {
+        addSubview(tableView)
+        addSubview(activityIndicator)
+    }
+    
+    func setupContraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
+    func setupAdditionalStuff() {
+        backgroundColor = .black
+    }
+}
+
 
 //MARK: - UITableViewDataSource
 extension HeroesViewScreen: UITableViewDataSource {
@@ -143,7 +150,7 @@ extension HeroesViewScreen: UITableViewDelegate {
 }
 
 //MARK: - HeroesTableViewDelegating
-extension HeroesViewScreen: HeroesTableViewDelegating {
+extension HeroesViewScreen: HeroesTableViewDelegate {
     func markAsFavorite(heroData: HeroData) -> Bool {
         delegate?.markAsFavorite(heroData: heroData) ?? false
     }

@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  MarvelHeroes
+
+  Created by Israel Pinheiro Mesquita on 16/03/21.
+  Copyright © 2021 israel3D. All rights reserved.
+*/
+
+//NSLocalizedString("updating_heroes", comment: String())
+
+//Global
+
+"updating_heroes" = "Atualizando heróis...";
+"heroes_title" = "Heróis Marvel";
+"favorites_title" = "Heróis Favoritos";
+"details_title" = "Herói Marvel";
+"favorite_button_title" = "Favoritar";
+"favorited_button_title" = "Favorito!";
+
+
+//Error
+
+"alert_error_title" = "Ops!";
+"alert_error_default_action" = "OK";
+"error_empty_heroes" = "Infelizmente estamos sem heróis";
+"error_impossible_favorite" = "Não foi possível favoritar";
+"error_impossible_unfavorite" = "Não foi possível desfavoritar";
+"error_not_found_favorite" = "Não encontramos nenhum dos seus favoritos";
+"error_generic" = "Ocorreu um erro";
+"error_internet_failure" = "Sua internet está instável";
+"try_again" = "Tentar novamente";

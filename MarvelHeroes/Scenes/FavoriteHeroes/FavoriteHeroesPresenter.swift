@@ -17,6 +17,10 @@ final class FavoriteHeroesPresenter: FavoriteHeroesPresentationLogic {
     
     weak var viewController: FavoriteHeroesDisplayLogic?
     
+    init(viewController: FavoriteHeroesDisplayLogic) {
+        self.viewController = viewController
+    }
+    
     // MARK: Present Favorite Heroes
     
     func presentFavoriteHeroes(response: FavoriteHeroes.List.Response) {
